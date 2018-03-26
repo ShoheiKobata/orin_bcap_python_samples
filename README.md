@@ -1,0 +1,2 @@
+# orin_bcap_python_samples
+pythonとb-capライブラリを使用してRC8を制御するサンプル
