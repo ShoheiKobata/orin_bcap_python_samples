@@ -23,14 +23,16 @@ THE SOFTWARE.
 '''
 
 # -*- coding:utf-8 -*-
+import sys
+sys.path.append('./pybcapclient')
 import select
 import socket
 import struct
 from ctypes import *
 from datetime import datetime
-from orinexception import *
+from pybcapclient.orinexception import *
 from threading import Lock
-from variant import VarType
+from pybcapclient.variant import VarType
 
 class BCAPClient:
   _BCAP_SOH = 0x1

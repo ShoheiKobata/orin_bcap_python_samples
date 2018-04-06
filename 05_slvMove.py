@@ -1,14 +1,11 @@
 # -*- coding:utf-8 -*-
 
 #b-capを使用して slave Move でロボットを動作させる
-#フォルダ構成はこのプログラム(01_ReadWrite.py)と同じ
-#ディレクトリにbCAPClientのpythonファイル3つが存在すること
-#bcapclient.py , orinexception.py , variant.py
+
 #b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
 
-import bcapclient
-import random
+import pybcapclient.bcapclient as bcapclient
 
 #接続先RC8 の　IPアドレス、ポート、タイムアウトの設定
 host = "10.6.228.192"

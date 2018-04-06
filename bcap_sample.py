@@ -5,7 +5,7 @@
 #
 #
 
-import bcapclient
+import pybcapclient.bcapclient as bcapclient
 
 class bcap:
     #ハンドル格納変数

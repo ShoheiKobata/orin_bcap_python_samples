@@ -1,13 +1,11 @@
 # -*- coding:utf-8 -*-
 
 #b-capを使用してIO[128]の値を読み書きする。
-#フォルダ構成はこのプログラム(02_IOReadWrite.py)と同じ
-#ディレクトリにbCAPClientのpythonファイル3つが存在すること
-#bcapclient.py , orinexception.py , variant.py
+
 #b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
 
-import bcapclient
+import pybcapclient.bcapclient as bcapclient
 
 #接続先RC8 の　IPアドレス、ポート、タイムアウトの設定
 host = "10.6.228.192"
