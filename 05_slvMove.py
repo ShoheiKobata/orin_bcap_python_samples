@@ -1,65 +1,66 @@
 # -*- coding:utf-8 -*-
 
-#b-capを使用して slave Move でロボットを動作させる
+# Sample program
+# b-cap slave mode 
 
 #b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
 
-#接続先RC8 の　IPアドレス、ポート、タイムアウトの設定
-host = "10.6.228.192"
+### set IP Address , Port number and Timeout of connected RC8
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
-#TCP通信の接続処理
+### Connection processing of tcp communication
 m_bcapclient = bcapclient.BCAPClient(host,port,timeout)
 print("Open Connection")
 
-#b_cap Service を開始する
+### start b_cap Service
 m_bcapclient.service_start("")
 print("Send SERVICE_START packet")
 
-
+### set Parameter
 Name = ""
 Provider="CaoProv.DENSO.VRC"
 Machine = ("localhost")
 Option = ("")
 
-#RC8との接続処理 (RC8(VRC)プロバイダ)
+### Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name,Provider,Machine,Option)
 print("Connect RC8")
-#robotハンドル取得
+### get Robot Object Handl
 HRobot = m_bcapclient.controller_getrobot(hCtrl,"Arm","")
 print("AddRobot")
 
-#軸の制御権を取得
+### TakeArm
 Command = "TakeArm"
 Param = [0,0]
 m_bcapclient.robot_execute(HRobot,Command,Param)
 print("TakeArm")
 
-#Motor On
+### Motor On
 Command = "Motor"
 Param = [1,0]
 m_bcapclient.robot_execute(HRobot,Command,Param)
 print("Motor On")
 
-#初期位置に移動
+### Move Initialize Position
 Comp=1
 Pos_value = [0.0 , 0.0 , 90.0 , 0.0 , 90.0 , 0.0]
 Pose = [Pos_value,"J","@E"]
 m_bcapclient.robot_move(HRobot,Comp,Pose,"")
 print("Complete Move P,@E J(0.0, 0.0, 90.0, 0.0, 90.0, 0.0)")
 
-# Slave move: Change return format
+### Slave move: Change return format
 Command = "slvRecvFormat"
 # Param = 0x0001  # Change the format to position
 Param = 0x0014  # hex(10): timestamp, hex(1): [pose, joint]
 m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
-# Slave move: Change mode
+### Slave move: Change mode
 Command = "slvChangeMode"
 # Param = 0x001  # Type P, mode 0 (buffer the destination)  
 Param = 0x101  # Type P, mode 1 (overwrite the destination)  
@@ -67,7 +68,7 @@ Param = 0x101  # Type P, mode 1 (overwrite the destination)
 m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
-# Send POS slvMove
+### Send POS slvMove
 Command = "slvMove"
 LoopNum = 100
 for num in range(LoopNum):
@@ -83,13 +84,13 @@ for num in range(LoopNum):
     print("time:" + str(ret[0]))
     print("pos P,J:" + str(ret[1]))
 
-# Slave move: Change mode
+### Slave move: Change mode
 Command = "slvChangeMode"  
 Param = 0x000  # finish Slave Move  
 m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
-#Release Handle and Disconnect
+### Release Handle and Disconnect
 if HRobot != 0:
     m_bcapclient.robot_release(HRobot)
     print("Release Robot")
@@ -97,7 +98,7 @@ if hCtrl != 0:
     m_bcapclient.controller_disconnect(hCtrl)
     print("Release Controller")
 
-#b-cap service stop
+### b-cap service stop
 m_bcapclient.service_stop()
 print("b-cap service Stop")
 

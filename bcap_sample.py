@@ -1,21 +1,22 @@
 # -*- coding:utf-8 -*-
 
-#b-cap 通信を使用してRC8の情報を取得する
-#さまざまな情報を取得し表示する
-#
-#
+# Sample program
+# Get infomations
 
 import pybcapclient.bcapclient as bcapclient
 
 class bcap:
-    #ハンドル格納変数
+    '''
+        class of bcap
+    '''
+    ### Handl
     m_bcap=None
     H_ctrl=None
     H_robot=None
     H_task=None
     H_Var=None
 
-    #RC8プロバイダ 引数設定
+    ### Set param
     Name = ""
     Provider="CaoProv.DENSO.VRC"
     Machine = "localhost"
@@ -24,18 +25,17 @@ class bcap:
     timeout = 2000
 
     def __init__(self,host,port):
-        #TCP通信の開始
+        ### Connection processing of tcp communication
         print("Open Connection")
         self.m_bcap = bcapclient.BCAPClient(host,port,self.timeout)
-        #b-capserviceを開始する
+        ### start b_cap Service
         print("Send SERVICE_START packet")
         self.m_bcap.service_start("")
         
-        #RC8プロバイダでRC8コントローラにアクセスする
-        #戻り値はハンドル
+        ### Connect to RC8 (RC8(VRC)provider)
         self.H_ctrl = self.m_bcap.controller_connect(self.Name,self.Provider,self.Machine,self.Option)
         print("Connect RC8")
-        #ロボットクラスへの接続
+        ### get Robot Object Handl
         self.H_robot = self.m_bcap.controller_getrobot(self.H_ctrl,"","")
     #End init
 
@@ -77,8 +77,8 @@ class bcap:
 
 def main():
     
-    #RC8のIPアドレスを指定する
-    host = "10.6.228.192"
+    ### Set IP Address and port num
+    host = "192.168.0.1"
     port = 5007
     
     robclient = bcap(host,port)

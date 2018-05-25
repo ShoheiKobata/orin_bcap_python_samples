@@ -1,52 +1,53 @@
 # -*- coding:utf-8 -*-
 
-#b-capを使用してI[1]の値を読み書きする。
+# Sample program
+# read and write value of I[1] using b-cap
 
-#b-cap Lib URL 
+# b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
 import random
 
-#接続先RC8 の　IPアドレス、ポート、タイムアウトの設定
-host = "10.6.228.192"
+### set IP Address , Port number and Timeout of connected RC8
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
-#TCP通信の接続処理
+### Connection processing of tcp communication
 m_bcapclient = bcapclient.BCAPClient(host,port,timeout)
 print("Open Connection")
 
-#b_cap Service を開始する
+### start b_cap Service
 m_bcapclient.service_start("")
 print("Send SERVICE_START packet")
 
-
+### set Parameter
 Name = ""
 Provider="CaoProv.DENSO.VRC"
-Machine = ("localhost")
-Option = ("")
+Machine = "localhost"
+Option = ""
 
-#RC8との接続処理 (RC8(VRC)プロバイダ)
+### Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name,Provider,Machine,Option)
 print("Connect RC8")
-#I[1]のオブジェクトを生成
+### get I[1] Object Handl
 IHandl=0
 IHandl = m_bcapclient.controller_getvariable(hCtrl,"I1","")
-#I[1]の値を読み込む
+### read value of I[1]
 retI = m_bcapclient.variable_getvalue(IHandl)
 print("Read Variable I[1] = %d" %retI)
 
-#書き込む値をランダムに生成
+### Generate random value
 newval = random.randint(0,99)
-#I[1]に値を書き込む
+### write value of I[1]
 m_bcapclient.variable_putvalue(IHandl,newval)
 print("Write Variable :newval = %d" %newval)
-#I[1]の値を読み込む
+### read value of I[1]
 retI = m_bcapclient.variable_getvalue(IHandl)
 print("Read Variable I[1] = %d" %retI)
 
-#切断処理
+### Disconnect
 if(IHandl != 0):
     m_bcapclient.variable_release(IHandl)
     print("Release I[1]")

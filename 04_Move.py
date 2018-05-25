@@ -1,45 +1,48 @@
 # -*- coding:utf-8 -*-
 
-#b-capを使用してRC8へアクセスし、ロボットにMoveコマンドを発行し動作させる。
+# Send "Move" command to RC8
 
 #b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
 
-#接続先RC8 の　IPアドレス、ポート、タイムアウトの設定
-host = "10.6.228.192"
+### set IP Address , Port number and Timeout of connected RC8
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
-#TCP通信の接続処理
+### Connection processing of tcp communication
 m_bcapclient = bcapclient.BCAPClient(host,port,timeout)
 print("Open Connection")
 
-#b_cap Service を開始する
+### start b_cap Service
 m_bcapclient.service_start("")
 print("Send SERVICE_START packet")
 
-
+### set Parameter
 Name = ""
 Provider="CaoProv.DENSO.VRC"
 Machine = ("localhost")
 Option = ("")
 
-#RC8との接続処理 (RC8(VRC)プロバイダ)
+### Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name,Provider,Machine,Option)
 print("Connect RC8")
-
+### get Robot Object Handl
 HRobot = m_bcapclient.controller_getrobot(hCtrl,"Arm","")
 print("AddRobot")
 
-#
+### TakeArm
 Command = "TakeArm"
 Param = [0,0]
 m_bcapclient.robot_execute(HRobot,Command,Param)
 print("TakeArm")
-#
+
+### Set Parameters
+#Interpolation
 Comp=1
+#PoseData
 Pose = "@P P1"
 m_bcapclient.robot_move(HRobot,Comp,Pose,"")
 print("Complete Move P,@P P[1]")
@@ -50,15 +53,16 @@ Pose = "@P P3"
 m_bcapclient.robot_move(HRobot,Comp,Pose,"")
 print("Complete Move P,@P P[3]")
 
+###Give Arm
 Command = "GiveArm"
 Param = None
 m_bcapclient.robot_execute(HRobot,Command,Param)
 print("GiveArm")
 
-#切断処理
+#Disconnect
 if(HRobot != 0):
     m_bcapclient.robot_release(HRobot)
-    print("Release Pro1")
+    print("Release Robot Object")
 #End If
 if(hCtrl != 0):
     m_bcapclient.controller_disconnect(hCtrl)
@@ -66,4 +70,3 @@ if(hCtrl != 0):
 #End If
 m_bcapclient.service_stop()
 print("B-CAP service Stop")
-

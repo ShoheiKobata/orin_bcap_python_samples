@@ -1,44 +1,46 @@
 # -*- coding:utf-8 -*-
 
-#b-capを使用してRC8の内のプログラム(pro1.pcs)を操作する。
+# Sample program
+# Control of task(pro1.pcs) using b-cap
+
 #b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
 
 
-#接続先RC8 の　IPアドレス、ポート、タイムアウトの設定
-host = "10.6.228.192"
+### set IP Address , Port number and Timeout of connected RC8
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
-#TCP通信の接続処理
+### Connection processing of tcp communication
 m_bcapclient = bcapclient.BCAPClient(host,port,timeout)
 print("Open Connection")
 
-#b_cap Service を開始する
+### start b_cap Service
 m_bcapclient.service_start("")
 print("Send SERVICE_START packet")
 
-
+### set Parameter
 Name = ""
 Provider="CaoProv.DENSO.VRC"
 Machine = ("localhost")
 Option = ("")
 
-#RC8との接続処理 (RC8(VRC)プロバイダ)
+### Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name,Provider,Machine,Option)
 print("Connect RC8")
-#Task(Pro1)のオブジェクトを生成
+### get task(pro1) Object Handl
 HTask = 0
 HTask = m_bcapclient.controller_gettask(hCtrl,"Pro1","")
 
-#Pro1を開始する
-#mode  1:1サイクル起動 2:連続起動 3:1ステップ起動
+#Start pro1
+#mode  1:One cycle execution, 2:Continuous execution, 3:Step forward
 mode = 3
 hr = m_bcapclient.task_start(HTask,mode,"")
 
-#切断処理
+# Disconnect
 if(HTask != 0):
     m_bcapclient.task_release(HTask)
     print("Release Pro1")
@@ -49,4 +51,3 @@ if(hCtrl != 0):
 #End If
 m_bcapclient.service_stop()
 print("B-CAP service Stop")
-
