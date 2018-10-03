@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-#
+# This sample program is to control the robot with 3D mouse.
 #b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
 #
