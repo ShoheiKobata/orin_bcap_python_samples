@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 # Sample program
-# read and write value of I[1] using b-cap
+# read values of All Integer types  Variables using b-cap
 
 # b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
@@ -31,21 +31,23 @@ Option = ""
 ### Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name,Provider,Machine,Option)
 print("Connect RC8")
+
 ### get I[1] Object Handl
 IHandl=0
-IHandl = m_bcapclient.controller_getvariable(hCtrl,"I1","")
-### read value of I[1]
-retI = m_bcapclient.variable_getvalue(IHandl)
-print("Read Variable I[1] = %d" %retI)
+IHandl = m_bcapclient.controller_getvariable(hCtrl,"I*","")
+### Get System Variables "@VAR_I_LEN" Object Handl
+VAR_I_Handl = 0
+VAR_I_Handl = m_bcapclient.controller_getvariable(hCtrl,"@VAR_I_LEN","")
 
-### Generate random value
-newval = random.randint(0,99)
-### write value of I[1]
-m_bcapclient.variable_putvalue(IHandl,newval)
-print("Write Variable :newval = %d" %newval)
-### read value of I[1]
-retI = m_bcapclient.variable_getvalue(IHandl)
-print("Read Variable I[1] = %d" %retI)
+### Get System Variables "@VAR_I_LEN" Value
+ret_I_Len = m_bcapclient.variable_getvalue(VAR_I_Handl)
+
+for IDnum in range(ret_I_Len):
+    ###Change ID Number I[*]
+    m_bcapclient.variable_putid(IHandl,IDnum)    
+    ### read value of I[*]
+    retI = m_bcapclient.variable_getvalue(IHandl)
+    print("Read Variable I[%d] = %d" %(IDnum,retI))
 
 ### Disconnect
 if(IHandl != 0):

@@ -39,6 +39,21 @@ Param = [0,0]
 m_bcapclient.robot_execute(HRobot,Command,Param)
 print("TakeArm")
 
+###Motor On
+Command = "Motor"
+Param = [1,0]
+m_bcapclient.robot_execute(HRobot,Command,Param)
+print("Motor On")
+
+###set ExtSpeed Speed,Accel,Decel
+Command = "ExtSpeed"
+Speed = 50
+Accel = 25
+Decel = 25
+Param = [Speed,Accel,Decel]
+m_bcapclient.robot_execute(HRobot,Command,Param)
+print("ExtSpeed")
+
 ### Set Parameters
 #Interpolation
 Comp=1
@@ -46,12 +61,19 @@ Comp=1
 Pose = "@P P1"
 m_bcapclient.robot_move(HRobot,Comp,Pose,"")
 print("Complete Move P,@P P[1]")
-Pose = "@P P2"
+Pose = [2,"P","@0"]
 m_bcapclient.robot_move(HRobot,Comp,Pose,"")
-print("Complete Move P,@P P[2]")
-Pose = "@P P3"
+print("Complete Move P,@0 P[2]")
+position_Value = [210.0,0.0,260.0,180.0,0.0,180.0,261]
+Pose = [position_Value,"P","@E"]
 m_bcapclient.robot_move(HRobot,Comp,Pose,"")
-print("Complete Move P,@P P[3]")
+print("Complete Move P,@E P(x,y,z,Rx,Ry,Rz,Fig)")
+
+###Motor Off
+Command = "Motor"
+Param = [0,0]
+m_bcapclient.robot_execute(HRobot,Command,Param)
+print("Motor Off")
 
 ###Give Arm
 Command = "GiveArm"

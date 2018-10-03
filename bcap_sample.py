@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 # Sample program
-# Get infomations
+# Get system variables in each object
 
 import pybcapclient.bcapclient as bcapclient
 
@@ -72,6 +72,18 @@ class bcap:
             print(ret)
         #End for
     #End def readCtrlValAll
+    def readRobotValAll(self):
+        var_name_list = self.m_bcap.robot_getvariablenames(self.H_robot,"")
+        print(var_name_list)
+        bstrName = ""
+        bstrOpt = ""
+        indexes = [i for i in var_name_list if "@" in i]
+        for num in range(20):
+            print("Robot Class VariableName=" + indexes[num])
+            Htemp = self.m_bcap.robot_getvariable(self.H_robot,indexes[num],bstrOpt)
+            ret = self.m_bcap.variable_getvalue(Htemp)
+            print(ret)
+    #End def readCtrlValAll
 #End class
 
 
@@ -84,6 +96,7 @@ def main():
     robclient = bcap(host,port)
 
     robclient.readCtrlValAll()
+    robclient.readRobotValAll()
     #robclient.readIO(128)
 
     del robclient
