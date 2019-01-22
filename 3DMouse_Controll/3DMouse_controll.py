@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 
 # This sample program is to control the robot with 3D mouse.
-#b-cap Lib URL 
+# b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
 #
-#spacenavigator github URL
+# spacenavigator github URL
 # https://github.com/johnhw/pyspacenavigator
 #
 
