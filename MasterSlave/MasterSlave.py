@@ -68,14 +68,14 @@ while loop_flg:
     # Check slave robot moving
     ret_motion_comp = s_rob.execute("MotionComplete",Param)
 
-    '''
+   
     # 
     if(abs(m_handPos-m_handPos_old) > 0.25):
         if((1 < m_handPos) and (m_handPos<28)):
             handFlg = True
         # End if
     # End if
-    '''
+   
 
     if sync_flg:
         if(ret_motion_comp==True):
@@ -85,7 +85,7 @@ while loop_flg:
         if(s_outrange==0):
             s_rob.move(1,posedata,"Next")
         
-    '''
+   
     # COBOTTA Hand move
     s_handpos = s_ctrl.execute("HandCurPos")
     if(handFlg == True):
@@ -96,7 +96,7 @@ while loop_flg:
         else:
             s_ctrl.execute("HandMoveA",[m_handPos,100])
         m_handPos_old = m_handPos
-    '''
+    
 
     if getkey(ESC):
         loop_flg = False
