@@ -40,17 +40,36 @@ print("Read Variable IO128 = %s" %retIO)
 ### read value of IO[128]
 #switching IO state
 newval = not(retIO)
-### write value of I[1]
+### write value of IO[128]
 m_bcapclient.variable_putvalue(IOHandl,newval)
 print("Write Variable :newval = %s" %newval)
-### read value of I[1]
+### read value of IO[128]
 retIO = m_bcapclient.variable_getvalue(IOHandl)
 print("Read Variable IO128 = %s" %retIO)
+
+### read and write value of IO[130]-[145]
+# get Object Handl
+IOWHandl = 0
+IOWHandl = m_bcapclient.controller_getvariable(hCtrl,"IOW130","")
+
+# read value
+retIOW = m_bcapclient.variable_getvalue(IOWHandl)
+print("Read Variable IOW130 = %s" %retIOW)
+
+# write value
+writevalue = -1  # writevalue = 0b1111111111111111
+m_bcapclient.variable_putvalue(IOWHandl,writevalue)
+# read value
+retIOW = m_bcapclient.variable_getvalue(IOWHandl)
+print("Read Variable IOW130 = %s" %retIOW)
 
 # Disconnect
 if(IOHandl != 0):
     m_bcapclient.variable_release(IOHandl)
     print("Release IO128")
+if(IOWHandl != 0):
+    m_bcapclient.variable_release(IOWHandl)
+    print("Release IOW130")
 #End If
 if(hCtrl != 0):
     m_bcapclient.controller_disconnect(hCtrl)
