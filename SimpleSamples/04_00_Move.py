@@ -8,7 +8,7 @@
 import pybcapclient.bcapclient as bcapclient
 
 ### set IP Address , Port number and Timeout of connected RC8
-host = "192.168.0.1"
+host = "127.0.0.1"
 port = 5007
 timeout = 2000
 
@@ -47,7 +47,7 @@ print("Motor On")
 
 ###set ExtSpeed Speed,Accel,Decel
 Command = "ExtSpeed"
-Speed = 50
+Speed = 10
 Accel = 25
 Decel = 25
 Param = [Speed,Accel,Decel]
@@ -64,11 +64,13 @@ print("Complete Move P,@P P[1]")
 Pose = [2,"P","@0"]
 m_bcapclient.robot_move(HRobot,Comp,Pose,"")
 print("Complete Move P,@0 P[2]")
+
+'''
 position_Value = [210.0,0.0,260.0,180.0,0.0,180.0,261]
 Pose = [position_Value,"P","@E"]
 m_bcapclient.robot_move(HRobot,Comp,Pose,"")
 print("Complete Move P,@E P(x,y,z,Rx,Ry,Rz,Fig)")
-
+'''
 ###Motor Off
 Command = "Motor"
 Param = [0,0]

@@ -12,7 +12,7 @@ import pybcapclient.bcapclient as bcapclient
 import random
 
 ### set IP Address , Port number and Timeout of connected RC8
-host = "192.168.0.2"
+host = "127.0.0.1"
 port = 5007
 timeout = 2000
 
