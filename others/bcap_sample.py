@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-# Sample program
+# test program
 # Get system variables in each object
 
 import pybcapclient.bcapclient as bcapclient
@@ -90,7 +90,7 @@ class bcap:
 def main():
     
     ### Set IP Address and port num
-    host = "192.168.0.1"
+    host = "127.0.0.1"
     port = 5007
     
     robclient = bcap(host,port)

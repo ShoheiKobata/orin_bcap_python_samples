@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 # This sample program is to control the robot with KeyBoard.
-#b-cap Lib URL 
+# b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
 #
 #

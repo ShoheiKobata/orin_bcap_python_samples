@@ -47,9 +47,9 @@ print("Motor On")
 
 ###set ExtSpeed Speed,Accel,Decel
 Command = "ExtSpeed"
-Speed = 10
-Accel = 25
-Decel = 25
+Speed = 100
+Accel = 100
+Decel = 100
 Param = [Speed,Accel,Decel]
 m_bcapclient.robot_execute(HRobot,Command,Param)
 print("ExtSpeed")
@@ -59,7 +59,7 @@ print("ExtSpeed")
 Comp=1
 #PoseData
 Pose = "@P P1"
-m_bcapclient.robot_move(HRobot,Comp,Pose,"")
+m_bcapclient.robot_move(HRobot,Comp,Pose,"SPEED=F2,NEXT")
 print("Complete Move P,@P P[1]")
 Pose = [2,"P","@0"]
 m_bcapclient.robot_move(HRobot,Comp,Pose,"")

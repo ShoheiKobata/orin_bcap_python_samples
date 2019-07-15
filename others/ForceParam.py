@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
-# Sample program
-# read values of All Integer types  Variables using b-cap
+# test program
+# check the ForceParam command
 
 # b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap

@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
-# Sample program
-# get values of position,speed and torque using b-cap
+# test program
+# Temporary program
 
 # b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
@@ -11,7 +11,7 @@ import random
 import time
 
 ### set IP Address , Port number and Timeout of connected RC8
-host = "192.168.0.1"
+host = "192.168.17.41"
 port = 5007
 timeout = 2000
 
@@ -35,34 +35,25 @@ try:
     print("Connect RC8")
     ### Get Robot Handle
     hRobot = m_bcapclient.controller_getrobot(hCtrl,"Arm","")
-
-    ### Start timer
-    start = time.time()
-
-    for i in range(0,1001):
-        ### Get Position
-        ret = m_bcapclient.robot_execute(hRobot,"CurJnt")
-        print("CurJnt")
-        print(ret)
-        ret = m_bcapclient.robot_execute(hRobot,"CurPos")
-        print("CurPos")
-        print(ret)
-        ### get torque
-        ret = m_bcapclient.robot_execute(hRobot,"GetSrvData",4)
-        print("Get torque")
-        print(ret)
-        ### get speed
-        ret = m_bcapclient.robot_execute(hRobot,"GetSrvData",17)
-        print("Get Speed (Tool tip speed (work coordinates and position 3 component only))")
-        print(ret)
-    elapsed_time = time.time() - start
-    print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
+    hServo = m_bcapclient.robot_getvariable(hRobot,"@SERVO_ON","")
+    ret = m_bcapclient.variable_getvalue(hServo)
+    print(ret)
+    
 
 except Exception as e:
     print('=== ERROR Description ===')
-#    print( 'type:' + str(type(e)))
-#    print('args:' + str(e.args))
-    print(str(e))
+    if str(type(e)) == "<class 'pybcapclient.orinexception.ORiNException'>":
+        print(e)
+        errorcode_int = int(str(e))
+        if errorcode_int < 0:
+            errorcode_hex = format(errorcode_int & 0xffffffff,'x')
+        else:
+            errorcode_hex = hex(errorcode_int)
+        print("Error Code : 0x" + str(errorcode_hex))
+        error_description = m_bcapclient.controller_execute(hCtrl,"GetErrorDescription",errorcode_int)
+        print("Error Description : " + error_description)
+    else:
+        print(e)
 
 #DisConnect
 if(hRobot != 0):

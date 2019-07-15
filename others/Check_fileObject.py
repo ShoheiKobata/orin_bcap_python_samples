@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-# Sample program
+# test program
 # Get File Object and edit prigrams in RC8
 
 # b-cap Lib URL 
