@@ -9,9 +9,18 @@
 import pybcapclient.bcapclient as bcapclient
 import random
 import time
+import ctypes
+
+def getkey(key):
+    return(bool(ctypes.windll.user32.GetAsyncKeyState(key)&0x8000))
+# End def 
+
+ESC = 0x1B          # Virtual key code of [ESC] key
+key_1 = 0X31        # Virtual key code of [1] key
+key_2 = 0X32        # Virtual key code of [2] key
 
 ### set IP Address , Port number and Timeout of connected RC8
-host = "192.168.17.41"
+host = "127.0.0.1"
 port = 5007
 timeout = 2000
 
@@ -35,9 +44,22 @@ try:
     print("Connect RC8")
     ### Get Robot Handle
     hRobot = m_bcapclient.controller_getrobot(hCtrl,"Arm","")
-    hServo = m_bcapclient.robot_getvariable(hRobot,"@SERVO_ON","")
-    ret = m_bcapclient.variable_getvalue(hServo)
-    print(ret)
+    #hServo = m_bcapclient.robot_getvariable(hRobot,"@SERVO_ON","")
+    loop_flg=True
+    
+    while loop_flg:
+        ret = m_bcapclient.robot_execute(hRobot,"GetAllSrvData")
+        #ret = m_bcapclient.variable_getvalue(hServo)
+        print(ret)
+        time.sleep(1)
+        if getkey(ESC):
+            loop_flg = False
+            print("=====Finish Application=====")
+    # End while
+
+
+
+    
     
 
 except Exception as e:
