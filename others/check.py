@@ -20,7 +20,7 @@ key_1 = 0X31        # Virtual key code of [1] key
 key_2 = 0X32        # Virtual key code of [2] key
 
 ### set IP Address , Port number and Timeout of connected RC8
-host = "127.0.0.1"
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
@@ -56,11 +56,6 @@ try:
             loop_flg = False
             print("=====Finish Application=====")
     # End while
-
-
-
-    
-    
 
 except Exception as e:
     print('=== ERROR Description ===')
