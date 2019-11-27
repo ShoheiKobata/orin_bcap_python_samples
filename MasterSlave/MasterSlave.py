@@ -100,7 +100,7 @@ while loop_flg:
         if(s_outrange==0):
             s_bcapclient.robot_move(s_hrob,1,posedata,"Next")
         
-   '''
+    '''
     # COBOTTA Hand move
     s_handpos = s_bcapclient.controller_execute(s_hctrl,"HandCurPos")
     if(handFlg == True):
