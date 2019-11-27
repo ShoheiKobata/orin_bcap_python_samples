@@ -1,9 +1,7 @@
 # -*- coding:utf-8 -*-
 
-# Sample program
-# read and write value of Global Variables using b-cap
-# I(Integer),F(Sigle Precision Real Number),D(Double Precision Real Number),
-# P(Position),S(String)
+# test program
+# Measure the program processing time.
 
 # b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
