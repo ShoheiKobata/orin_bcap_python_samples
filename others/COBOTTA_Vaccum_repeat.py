@@ -198,7 +198,7 @@ def main():
                 vacuum_load_check(power, interval, load)
             # End for
         # Endfor
-    # Endfor
+    # Endfora
 
 
 if __name__ == '__main__':
