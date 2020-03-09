@@ -5,6 +5,7 @@ __pycache__/
 
 # data
 data
+private
 
 # C extensions
 *.so

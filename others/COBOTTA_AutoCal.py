@@ -12,7 +12,7 @@ import time
 import pybcapclient.bcapclient as bcapclient
 
 # set IP Address , Port number and Timeout of connected RC8
-host = "192.168.0.5"
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
@@ -37,8 +37,21 @@ try:
     # Get Robot Handle
     hRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
 
+    # Error Clear
+    errorcnt = m_bcapclient.controller_execute(hCtrl, "GetCurErrorCount")
+    if errorcnt > 0:
+        print("Error count : " + str(errorcnt))
+        m_bcapclient.robot_execute(hRobot, "ManualResetPreparation")
+        print("executed ManualResetPreparation")
+        m_bcapclient.controller_execute(hCtrl, "ClearError")
+        print("executed ClearError")
+
     m_bcapclient.robot_execute(hRobot, "AutoCal", "")
+    print("executed autocal")
+    m_bcapclient.robot_execute(hRobot, "ManualResetPreparation")
+    print("executed ManualResetPreparation")
     m_bcapclient.robot_execute(hRobot, "MotionPreparation", "")
+    print("executed MotionPreparation")
     m_bcapclient.robot_execute(hRobot, "TakeArm")
     m_bcapclient.robot_execute(hRobot, "ExtSpeed", 100)
     m_bcapclient.robot_move(hRobot, 1, "@P J(0,0,90,0,90,0)")
