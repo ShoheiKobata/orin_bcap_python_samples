@@ -14,7 +14,7 @@ import os
 import pybcapclient.bcapclient as bcapclient
 
 # set IP Address , Port number and Timeout of connected RC8
-host = "192.168.0.5"
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
@@ -189,8 +189,8 @@ def vacuum_load_check(sngPower, interval, loadtime):
 
 def main():
 
-    for power in range(100, 20, -10):
-        vacuum_load_check(power, 0, 0)
+    # for power in range(100, 20, -10):
+    #    vacuum_load_check(power, 0, 0)
     # End for
     for interval in range(5, 15, 5):
         for load in range(5, 15, 5):
@@ -198,7 +198,7 @@ def main():
                 vacuum_load_check(power, interval, load)
             # End for
         # Endfor
-    # Endfora
+    # Endfor
 
 
 if __name__ == '__main__':
