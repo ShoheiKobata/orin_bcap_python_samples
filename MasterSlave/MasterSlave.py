@@ -10,8 +10,8 @@ import time
 import ctypes
 
 ### Config ###
-master_ip = "192.168.0.5"
-slave_ip = "192.168.0.1"
+master_ip = "192.168.0.1"
+slave_ip = "192.168.0.2"
 port = 5007
 timeout = 2000
 ##############
@@ -87,14 +87,13 @@ while loop_flg:
     ret_motion_comp = s_bcapclient.robot_execute(
         s_hrob, "MotionComplete", Param)
 
-    '''
     # COBOTTA Hand check dist
     if(abs(m_handPos-m_handPos_old) > 0.25):
-        if((1 < m_handPos) and (m_handPos<28)):
+        if((1 < m_handPos) and (m_handPos < 28)):
             handFlg = True
         # End if
     # End if
-    '''
+
     if sync_flg:
         if(ret_motion_comp == True):
             s_bcapclient.robot_execute(s_hrob, "MotionSkip", [-1, 3])
@@ -104,18 +103,18 @@ while loop_flg:
         if(s_outrange == 0):
             s_bcapclient.robot_move(s_hrob, 1, posedata, "Next")
 
-    '''
     # COBOTTA Hand move
-    s_handpos = s_bcapclient.controller_execute(s_hctrl,"HandCurPos")
+    s_handpos = s_bcapclient.controller_execute(s_hctrl, "HandCurPos")
     if(handFlg == True):
-        if((s_handpos-m_handPos)>0):
-            s_hold = s_bcapclient.controller_execute(s_hctrl,"HandHoldState")
-            if(s_hold==False):
-                s_bcapclient.controller_execute(s_hctrl,"HandMoveAH",[m_handPos,100,6])
+        if((s_handpos-m_handPos) > 0):
+            s_hold = s_bcapclient.controller_execute(s_hctrl, "HandHoldState")
+            if(s_hold == False):
+                s_bcapclient.controller_execute(
+                    s_hctrl, "HandMoveAH", [m_handPos, 100, 6])
         else:
-            s_bcapclient.controller_execute(s_hctrl,"HandMoveA",[m_handPos,100])
+            s_bcapclient.controller_execute(
+                s_hctrl, "HandMoveA", [m_handPos, 100])
         m_handPos_old = m_handPos
-    '''
 
     if getkey(esc):
         loop_flg = False
