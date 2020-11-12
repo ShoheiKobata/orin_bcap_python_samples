@@ -39,35 +39,15 @@ Option = ("")
 # Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
 print("Connect RC8")
-hrobot = m_bcapclient.controller_getrobot(hCtrl, "Arm")
-m_bcapclient.robot_execute(hrobot, "ExtSpeed", 100)
+
 # get task(pro1) Object Handl
 HTask = 0
-HTask = m_bcapclient.controller_gettask(hCtrl, "Pro2", "")
-
-HTaskState = m_bcapclient.task_getvariable(HTask, "@STATUS_DETAILS", "")
+HTask = m_bcapclient.controller_gettask(hCtrl, "initpro", "")
 
 # Start pro1
 # mode  1:One cycle execution, 2:Continuous execution, 3:Step forward
-mode = 2
+mode = 1
 hr = m_bcapclient.task_start(HTask, mode, "")
-
-while loopflg:
-    #TaskStatus = m_bcapclient.task_execute(HTask,"GetStatus")
-    TaskStatus = m_bcapclient.variable_getvalue(HTaskState)
-    print("TaskStatus : ", TaskStatus)
-    ret = m_bcapclient.robot_execute(hrobot, "HighCurJntEx")
-    print(ret)
-    if(TaskStatus == 0):
-        loopflg = False
-    if getkey(ESC):  # If push the ESC key,task stop
-        print("push the ESC key")
-        # mode:: 0: Default stop, 1: Instant stop, 2: Step stop, 3: Cycle stop, 4: Initialized stop
-        mode = 1
-        hr = m_bcapclient.task_stop(HTask, mode, "")
-        print("task stop")
-        loopflg = False
-
 
 # Disconnect
 if(HTask != 0):
