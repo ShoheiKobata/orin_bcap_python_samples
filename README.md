@@ -11,10 +11,13 @@ Robot communication sample program using b-cap communication.
 - orin_bcap_python_samples/3DMouse_Comntroll  
 
   This is a program that manipulates the robot using 3D mouse.  
+<<<<<<< HEAD
 
 - orin_bcap_python_samples/MasterSlave  
 
   This is a program of the master slave system.  
+=======
+>>>>>>> 410caa0f0e32954f7ce606cad2b859196c3598bc
   
 ## Requirement
 
