@@ -22,7 +22,7 @@ key_1 = 0X31        # Virtual key code of [1] key
 key_2 = 0X32        # Virtual key code of [2] key
 
 # set IP Address , Port number and Timeout of connected RC8
-host = "192.168.0.1"
+host = "192.168.0.2"
 port = 5007
 timeout = 2000
 
@@ -46,16 +46,18 @@ try:
     print("Connect RC8")
     # Get Robot Handle
     hRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
-    hTask = m_bcapclient.controller_gettask(hCtrl, "Pro3", "")
+    #hTask = m_bcapclient.controller_gettask(hCtrl, "Pro3", "")
 
     # Start Pro
-    hr = m_bcapclient.task_start(hTask, 2, "")  # Continuous execution
-
+    #hr = m_bcapclient.task_start(hTask, 2, "")  # Continuous execution
+    
     loopflg = True
+    start = time.time()
     while loopflg:
         ret = m_bcapclient.robot_execute(hRobot, "HighCurJntEx", "")
-        print(ret)
-
+        elapsed_time = time.time() - start
+        print(ret,elapsed_time)
+        
         if getkey(ESC):
             hr = m_bcapclient.task_stop(hTask, 3, "")
             loopflg = False
