@@ -3,11 +3,17 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+<<<<<<< HEAD
+# data
+data
+private
+=======
 MasterSlave/
 private
 
 # data
 data
+>>>>>>> 410caa0f0e32954f7ce606cad2b859196c3598bc
 
 # C extensions
 *.so
