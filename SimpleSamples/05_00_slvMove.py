@@ -1,26 +1,12 @@
 # -*- coding:utf-8 -*-
 
 # Sample program
-<<<<<<< HEAD
 # b-cap slave mode
-
 # b-cap Lib URL
-=======
-<<<<<<< HEAD
-# b-cap slave mode
-
-# b-cap Lib URL
-=======
-# b-cap slave mode 
-
-#b-cap Lib URL 
->>>>>>> 410caa0f0e32954f7ce606cad2b859196c3598bc
->>>>>>> f9b5c0bc9e7e15560c4c6d43e5b662f6472cec19
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
 
-<<<<<<< HEAD
 # set IP Address , Port number and Timeout of connected RC8
 host = "192.168.0.123"
 port = 5007
@@ -28,17 +14,11 @@ timeout = 2000
 
 # Connection processing of tcp communication
 m_bcapclient = bcapclient.BCAPClient(host, port, timeout)
-=======
-<<<<<<< HEAD
 # set IP Address , Port number and Timeout of connected RC8
-=======
-### set IP Address , Port number and Timeout of connected RC8
->>>>>>> 410caa0f0e32954f7ce606cad2b859196c3598bc
 host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
-<<<<<<< HEAD
 # Connection processing of tcp communication
 m_bcapclient = bcapclient.BCAPClient(host, port, timeout)
 print("Open Connection")
@@ -87,10 +67,6 @@ m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
 # Slave move: Change return format
-=======
-### Connection processing of tcp communication
-m_bcapclient = bcapclient.BCAPClient(host,port,timeout)
->>>>>>> f9b5c0bc9e7e15560c4c6d43e5b662f6472cec19
 print("Open Connection")
 
 # start b_cap Service
@@ -129,22 +105,13 @@ Pose = [Pos_value, "J", "@E"]
 m_bcapclient.robot_move(HRobot, Comp, Pose, "")
 print("Complete Move P,@E J(0.0, 0.0, 90.0, 0.0, 90.0, 0.0)")
 
-<<<<<<< HEAD
 # Slave move: Change return format
-=======
-### Slave move: Change return format
->>>>>>> 410caa0f0e32954f7ce606cad2b859196c3598bc
->>>>>>> f9b5c0bc9e7e15560c4c6d43e5b662f6472cec19
 Command = "slvRecvFormat"
 # Param = 0x0001  # Change the format to position
 Param = 0x0014  # hex(10): timestamp, hex(1): [pose, joint]
 m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
-<<<<<<< HEAD
-# Slave move: Change mode
-=======
-<<<<<<< HEAD
 # Slave move: Change mode
 Command = "slvChangeMode"
 # Param = 0x001  # Type P, mode 0 (buffer the destination)
@@ -178,9 +145,6 @@ m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
 # Release Handle and Disconnect
-=======
-### Slave move: Change mode
->>>>>>> f9b5c0bc9e7e15560c4c6d43e5b662f6472cec19
 Command = "slvChangeMode"
 # Param = 0x001  # Type P, mode 0 (buffer the destination)
 Param = 0x101  # Type P, mode 1 (overwrite the destination)
@@ -210,12 +174,7 @@ Param = 0x000  # finish Slave Move
 m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
-<<<<<<< HEAD
 # Release Handle and Disconnect
-=======
-### Release Handle and Disconnect
->>>>>>> 410caa0f0e32954f7ce606cad2b859196c3598bc
->>>>>>> f9b5c0bc9e7e15560c4c6d43e5b662f6472cec19
 if HRobot != 0:
     m_bcapclient.robot_release(HRobot)
     print("Release Robot")
@@ -223,15 +182,7 @@ if hCtrl != 0:
     m_bcapclient.controller_disconnect(hCtrl)
     print("Release Controller")
 
-<<<<<<< HEAD
 # b-cap service stop
-=======
-<<<<<<< HEAD
-# b-cap service stop
-=======
-### b-cap service stop
->>>>>>> 410caa0f0e32954f7ce606cad2b859196c3598bc
->>>>>>> f9b5c0bc9e7e15560c4c6d43e5b662f6472cec19
 m_bcapclient.service_stop()
 print("b-cap service Stop")
 
