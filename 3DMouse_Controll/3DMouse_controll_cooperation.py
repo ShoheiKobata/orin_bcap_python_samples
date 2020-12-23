@@ -23,7 +23,7 @@ def main():
     ESC = 0x1B          # [ESC] virtual key code
     
     ### set IP Address , Port number and Timeout of connected RC8
-    host = "127.0.0.1"
+    host = "192.168.0.2"
     port = 5007
     timeout = 2000
     ### Handls
@@ -93,7 +93,7 @@ def main():
             Param = [1]
             bcap.robot_execute(hrob1,Command,Param)
             print("Move")
-            POSEDATA = [tlist,"P","@E"]
+            POSEDATA = [tlist,"P","@P"]
             bcap.robot_move(hrob1,2,POSEDATA,"")
             #SyncMoveStart
             Command = "SyncMoveEnd"
