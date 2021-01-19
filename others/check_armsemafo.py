@@ -36,7 +36,7 @@ print("AddRobot")
 Command  = "CurExtSpd"
 Param = ""
 ret = m_bcapclient.robot_execute(HRobot,Command,Param)
-Print(ret)
+print(ret)
 
 #Disconnect
 if(HRobot != 0):
