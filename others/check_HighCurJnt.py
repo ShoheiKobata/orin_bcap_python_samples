@@ -1,13 +1,12 @@
 # -*- coding:utf-8 -*-
 
 # test program
-# Temporary program
+# Measure the execution cycle of the HighCurJntEx command.
 
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
-import random
 import time
 import ctypes
 
@@ -46,20 +45,15 @@ try:
     print("Connect RC8")
     # Get Robot Handle
     hRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
-    #hTask = m_bcapclient.controller_gettask(hCtrl, "Pro3", "")
 
-    # Start Pro
-    #hr = m_bcapclient.task_start(hTask, 2, "")  # Continuous execution
-    
     loopflg = True
     start = time.time()
     while loopflg:
         ret = m_bcapclient.robot_execute(hRobot, "HighCurJntEx", "")
         elapsed_time = time.time() - start
-        print(ret,elapsed_time)
-        
+        print(ret, elapsed_time)
+
         if getkey(ESC):
-            hr = m_bcapclient.task_stop(hTask, 3, "")
             loopflg = False
 
 
