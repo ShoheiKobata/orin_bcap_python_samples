@@ -1,16 +1,27 @@
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
 # Send "Move" command to RC8
+# When this program is executed, the motor is turned on, the external speed is set to 10%, and the "Move"
 
-#b-cap Lib URL 
+# b-cap Lib URL 
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
 
-### set IP Address , Port number and Timeout of connected RC8
-host = "127.0.0.1"
+### set IP Address , Port number and Timeout of connected Robot Controller (RC8,RC8A,COBOTTA,RC9)
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
+
+# set Parameter
+# If you want to connect to RC9, please select "VRC9" as the provider name.
+# If you want to connect to RC8, RC8A, or COBOTTA, select "VRC" as the provider name.
+Name = ""
+Provider = "CaoProv.DENSO.VRC"
+#Provider = "CaoProv.DENSO.VRC9"
+Machine = "localhost"
+Option = ""
 
 ### Connection processing of tcp communication
 m_bcapclient = bcapclient.BCAPClient(host,port,timeout)
@@ -20,15 +31,9 @@ print("Open Connection")
 m_bcapclient.service_start("")
 print("Send SERVICE_START packet")
 
-### set Parameter
-Name = ""
-Provider="CaoProv.DENSO.VRC"
-Machine = ("localhost")
-Option = ("")
-
 ### Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name,Provider,Machine,Option)
-print("Connect RC8")
+print("Connect "+Provider)
 ### get Robot Object Handl
 HRobot = m_bcapclient.controller_getrobot(hCtrl,"Arm","")
 print("AddRobot")
@@ -47,9 +52,9 @@ print("Motor On")
 
 ###set ExtSpeed Speed,Accel,Decel
 Command = "ExtSpeed"
-Speed = 100
-Accel = 100
-Decel = 100
+Speed = 10
+Accel = 10
+Decel = 10
 Param = [Speed,Accel,Decel]
 m_bcapclient.robot_execute(HRobot,Command,Param)
 print("ExtSpeed")
