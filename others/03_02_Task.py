@@ -53,7 +53,7 @@ mode = 2
 hr = m_bcapclient.task_start(HTask, mode, "")
 
 while loopflg:
-    #TaskStatus = m_bcapclient.task_execute(HTask,"GetStatus")
+    # TaskStatus = m_bcapclient.task_execute(HTask,"GetStatus")
     TaskStatus = m_bcapclient.variable_getvalue(HTaskState)
     print("TaskStatus : ", TaskStatus)
     ret = m_bcapclient.robot_execute(hrobot, "HighCurJntEx")

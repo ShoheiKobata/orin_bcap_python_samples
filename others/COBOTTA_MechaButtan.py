@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 
-# Sample program
+# COBOTTA Sample program
 # Get COBOTTA Mecha Bottan States
+# ### The 'GetMechaButtonState', 'ClearMechaButtonState' command can be used with COBOTTA version 1.13 or later.
 
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
@@ -15,6 +16,8 @@ def main():
     host = '192.168.0.1'  # "192.168.0.1"
     port = 5007
     timeout = 2000
+
+    strBtnName = ['Func', '+', '-']
 
     # Connection processing of tcp communication
     m_bcapclient = bcapclient.BCAPClient(host, port, timeout)
@@ -32,11 +35,37 @@ def main():
 
     try:
         # Connect to RC8 (RC8(VRC)provider) , Get Controller Handle
-        hCtrl = m_bcapclient.controller_connect(
-            Name, Provider, Machine, Option)
+        hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
         print("Connect RC8")
         # Get Robot Handle
         hRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
+        hCtrlVer = m_bcapclient.controller_getvariable(hCtrl, '@VERSION')
+
+        # Check Robot type And Software version
+        # The 'GetMechaButtonState', 'ClearMechaButtonState' command can be used with COBOTTA version 1.13 or later.
+        ret = m_bcapclient.robot_execute(hRobot, 'GetRobotTypeName')
+        if 'CVR038' in ret:
+            print('Robot Type Name' + ret)
+        else:
+            print('Connect to not COBOTTA')
+            return
+        ret = m_bcapclient.variable_getvalue(hCtrlVer)
+        version_sep = ret.split('.')
+        if (int(version_sep[0]) >= 2) and (int(version_sep[1]) >= 13):
+            print('version : ' + ret)
+        else:
+            print('Connected to a version before than 2.13')
+            return
+        for iBtnType in range(0, 3):
+            ret = m_bcapclient.robot_execute(hRobot, "GetMechaButtonState", iBtnType)
+            print(strBtnName[iBtnType], ret)
+        # End for
+        """
+        for iBtnType in range(0, 3):
+            ret = m_bcapclient.robot_execute(
+                hRobot, 'ClearMechaButtonState', iBtnType)
+            print(strBtnName[iBtnType] + ' Button Clear State')
+        """
 
     except Exception as e:
         print('=== ERROR Description ===')
