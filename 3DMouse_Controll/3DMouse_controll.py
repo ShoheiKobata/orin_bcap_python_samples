@@ -23,7 +23,7 @@ def main():
     ESC = 0x1B          # [ESC] virtual key code
     
     ### set IP Address , Port number and Timeout of connected RC8
-    host = "192.168.0.2"
+    host = "192.168.0.1"
     port = 5007
     timeout = 2000
     ### Handls
