@@ -33,7 +33,7 @@ print("Send SERVICE_START packet")
 
 # Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
-print("Connect "+ Provider)
+print("Connect " + Provider)
 # get IO128 Object Handl
 IOHandl = 0
 IOHandl = m_bcapclient.controller_getvariable(hCtrl, "IO128", "")
@@ -51,7 +51,7 @@ print("Write Variable :newval = %s" % newval)
 retIO = m_bcapclient.variable_getvalue(IOHandl)
 print("Read Variable IO128 = %s" % retIO)
 
-# read and write value of IO[130]-[145]
+# read and write value of IO[130]-[145] word type (Unsigned 16-bit data.)
 # get Object Handl
 IOWHandl = 0
 IOWHandl = m_bcapclient.controller_getvariable(hCtrl, "IOW130", "")

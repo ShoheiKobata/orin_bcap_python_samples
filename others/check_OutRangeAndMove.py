@@ -1,14 +1,11 @@
 # -*- coding:utf-8 -*-
 
-# test program
-# Temporary program
+# This is a sample program to move after checking whether the target position is within the Motion Range.
 
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
-import random
-import time
 import ctypes
 
 
@@ -52,14 +49,14 @@ try:
     m_bcapclient.robot_execute(hRobot, Command, Param)
     print("TakeArm")
 
-    TargetPos = [300,0,400,180,0,180,5]
+    TargetPos = [300, 0, 400, 180, 0, 180, 5]
     strTargetPos = str(TargetPos)
     Pose = "P(" + strTargetPos[1:-1] + ")"
-    ret = m_bcapclient.robot_execute(hRobot,"OutRange",Pose)
+    ret = m_bcapclient.robot_execute(hRobot, "OutRange", Pose)
     print(ret)
     if ret == 0:
         strPose = "@P " + Pose
-        m_bcapclient.robot_move(hRobot,1,strPose)
+        m_bcapclient.robot_move(hRobot, 1, strPose)
     # End If
 
 except Exception as e:
