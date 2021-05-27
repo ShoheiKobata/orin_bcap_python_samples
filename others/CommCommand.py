@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 
-# Sample program
-# Comm command sample
+# Sample program Comm command sample in RC8
 
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
@@ -47,28 +46,29 @@ hcom = m_bcapclient.controller_getextension(hCtrl, "Comm")
 
 retComState = 0
 while True:
-    m_bcapclient.extension_execute(hcom,"open",line_number)
+    m_bcapclient.extension_execute(hcom, "open", line_number)
     time.sleep(1)
-    retComState = m_bcapclient.extension_execute(hcom,"State",line_number)
-    print("CommState  ",retComState)
-    if retComState==2:
+    retComState = m_bcapclient.extension_execute(hcom, "State", line_number)
+    print("CommState  ", retComState)
+    if retComState == 2:
         break
     # End if
 # End while
 
-m_bcapclient.extension_execute(hcom,"clear",line_number)
-retComInput=""
+m_bcapclient.extension_execute(hcom, "clear", line_number)
+retComInput = ""
 while loopflg:
     retComCount = 0
-    retComCount = m_bcapclient.extension_execute(hcom,"count",line_number)
-    if(retComCount>0):
-        retComInput = m_bcapclient.extension_execute(hcom,"input",line_number)
+    retComCount = m_bcapclient.extension_execute(hcom, "count", line_number)
+    if(retComCount > 0):
+        retComInput = m_bcapclient.extension_execute(
+            hcom, "input", line_number)
         print(retComInput)
     # End if
-    if getkey(ESC):  # If push the ESC key,Stop program 
+    if getkey(ESC):  # If push the ESC key,Stop program
         print("push the ESC key")
         # CommClose
-        m_bcapclient.extension_execute(hcom,"close",line_number)
+        m_bcapclient.extension_execute(hcom, "close", line_number)
         loopflg = False
     # End if
 # End while

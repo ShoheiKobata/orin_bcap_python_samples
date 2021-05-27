@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 # COBOTTA Sample program
-# Get COBOTTA Mecha Bottan States
+# Get COBOTTA Mecha Button States
 # ### The 'GetMechaButtonState', 'ClearMechaButtonState' command can be used with COBOTTA version 1.13 or later.
 
 # b-cap Lib URL
@@ -13,7 +13,7 @@ import pybcapclient.bcapclient as bcapclient
 def main():
 
     # set IP Address , Port number and Timeout of connected RC8
-    host = '192.168.0.1'  # "192.168.0.1"
+    host = '192.168.0.1'
     port = 5007
     timeout = 2000
 
@@ -35,7 +35,8 @@ def main():
 
     try:
         # Connect to RC8 (RC8(VRC)provider) , Get Controller Handle
-        hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
+        hCtrl = m_bcapclient.controller_connect(
+            Name, Provider, Machine, Option)
         print("Connect RC8")
         # Get Robot Handle
         hRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
@@ -57,7 +58,8 @@ def main():
             print('Connected to a version before than 2.13')
             return
         for iBtnType in range(0, 3):
-            ret = m_bcapclient.robot_execute(hRobot, "GetMechaButtonState", iBtnType)
+            ret = m_bcapclient.robot_execute(
+                hRobot, "GetMechaButtonState", iBtnType)
             print(strBtnName[iBtnType], ret)
         # End for
         """

@@ -39,7 +39,7 @@ print("Connect " + Provider)
 HTask = 0
 HTask = m_bcapclient.controller_gettask(hCtrl, "Pro1", "")
 
-# Start pro1
+# Start pro1.pcs in RC8
 # mode  1:One cycle execution, 2:Continuous execution, 3:Step forward
 mode = 1
 hr = m_bcapclient.task_start(HTask, mode, "")

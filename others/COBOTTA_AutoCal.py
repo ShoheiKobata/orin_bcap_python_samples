@@ -2,12 +2,11 @@
 
 # COBOTTA
 # AutoCAL sequence
+# Parameters to Be Set in Advance
+# [F2 Arm] - [F6 Aux] - [F1 Config]  252: CALSET on start-up = 1
 
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
-
-import random
-import time
 
 import pybcapclient.bcapclient as bcapclient
 

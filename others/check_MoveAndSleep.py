@@ -7,7 +7,6 @@
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
-import random
 import time
 import ctypes
 

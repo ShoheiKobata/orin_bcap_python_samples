@@ -16,7 +16,6 @@ def getkey(key):
 
 loopflg = True
 ESC = 0x1B          # [ESC] virtual key code
-
 # set IP Address , Port number and Timeout of connected RC8
 host = "192.168.0.1"
 port = 5007
@@ -40,7 +39,7 @@ Option = ("")
 hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
 print("Connect RC8")
 
-# get task(pro1) Object Handl
+# get task(initpro.pcs) Object Handl
 HTask = 0
 HTask = m_bcapclient.controller_gettask(hCtrl, "initpro", "")
 

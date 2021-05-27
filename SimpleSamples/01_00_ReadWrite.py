@@ -21,10 +21,9 @@ timeout = 2000
 # If you want to connect to RC8, RC8A, or COBOTTA, select "VRC" as the provider name.
 Name = ""
 Provider = "CaoProv.DENSO.VRC"
-#Provider = "CaoProv.DENSO.VRC9"
+# Provider = "CaoProv.DENSO.VRC9"
 Machine = "localhost"
 Option = ""
-
 
 # Connection processing of tcp communication
 m_bcapclient = bcapclient.BCAPClient(host, port, timeout)

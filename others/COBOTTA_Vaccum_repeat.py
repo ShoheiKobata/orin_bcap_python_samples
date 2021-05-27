@@ -1,12 +1,10 @@
 # -*- coding:utf-8 -*-
 
-# COBOTTA
-# Vaccum
-
+# COBOTTA Vaccum
+# This sample program can do vacuum load factor testing.
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
 
-import random
 import time
 import csv
 import os
@@ -17,9 +15,6 @@ import pybcapclient.bcapclient as bcapclient
 host = "192.168.0.5"
 port = 5007
 timeout = 2000
-
-# test datas
-
 
 ret = []
 
@@ -33,10 +28,6 @@ def vacuum_load_check(sngPower, interval, loadtime):
     writer = csv.writer(f, lineterminator='\n')
     header = ["Time(s)", "HandCurPressure[kPa]", "HandCurLoad[%]"]
     writer.writerow(header)
-
-    # f = open(os.path.join("data", filename), 'w')
-    # writer = csv.writer(f, lineterminator='\n')
-    # header = ["Time(ms)", "HandCurPressure[kPa]", "HandCurLoad[%]"]
 
     # Connection processing of tcp communication
     m_bcapclient = bcapclient.BCAPClient(host, port, timeout)
@@ -148,7 +139,7 @@ def vacuum_load_check(sngPower, interval, loadtime):
             print(e)
 
     finally:
-
+        # cool down
         while True:
             time.sleep(0.5)
             retPressure = m_bcapclient.controller_execute(
@@ -179,11 +170,6 @@ def vacuum_load_check(sngPower, interval, loadtime):
         m_bcapclient.service_stop()
         print("B-CAP service Stop")
 
-        # f = open(os.path.join("data", filename), 'w')
-        # writer = csv.writer(f, lineterminator='\n')
-        # header = ["Time(s)", "HandCurPressure[kPa]", "HandCurLoad[%]"]
-        # writer.writerow(header)
-        # writer.writerows(ret)
         f.close()
 
 
