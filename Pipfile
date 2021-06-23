@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 pywinusb = "*"
 numpy = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.8"
