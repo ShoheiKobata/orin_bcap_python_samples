@@ -10,7 +10,7 @@
 import pybcapclient.bcapclient as bcapclient
 
 # set IP Address , Port number and Timeout of connected Robot Controller (RC8,RC8A,COBOTTA,RC9)
-host = "192.168.18.1"
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
