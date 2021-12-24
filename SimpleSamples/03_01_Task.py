@@ -42,7 +42,7 @@ print("Send SERVICE_START packet")
 
 # Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
-print("Connect "+Provider)
+print("Connect " + Provider)
 # get task(pro1) Object Handl
 HTask = 0
 HTask = m_bcapclient.controller_gettask(hCtrl, "Pro1", "")

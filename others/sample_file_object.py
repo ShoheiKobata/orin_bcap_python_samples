@@ -1,24 +1,12 @@
 # -*- coding:utf-8 -*-
 
-# test program
-# Temporary program
+# sample program
+# Get File Object and edit program(test_pro.pcs) in RC8
 
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
-import time
-import ctypes
-
-
-def getkey(key):
-    return(bool(ctypes.windll.user32.GetAsyncKeyState(key) & 0x8000))
-# End def
-
-
-ESC = 0x1B          # Virtual key code of [ESC] key
-key_1 = 0X31        # Virtual key code of [1] key
-key_2 = 0X32        # Virtual key code of [2] key
 
 # set IP Address , Port number and Timeout of connected RC8
 host = "192.168.0.1"
@@ -43,31 +31,32 @@ try:
     # Connect to RC8 (RC8(VRC)provider) , Get Controller Handle
     hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
     print("Connect RC8")
-    # Get Robot Handle
-    hRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
-    # TakeArm
-    Command = "TakeArm"
-    Param = [0, 0]
-    m_bcapclient.robot_execute(hRobot, Command, Param)
-    print("TakeArm")
-
-    Pose = "@E J(0,0,90,0,90,0)"
-    m_bcapclient.robot_move(hRobot, 1, Pose)
-
-    for i in range(7):
-        print(time.time())
-        time.sleep(10)
-    # End for
-
-    Pose = "@E J(0,0,90,0,90,10)"
-    m_bcapclient.robot_move(hRobot, 1, Pose)
-
-    # End while
+    # Get file names
+    filenames = m_bcapclient.controller_getfilenames(hCtrl, "")
+    print("Files in RC8 : " + str(filenames))
+    hFile = m_bcapclient.controller_getfile(hCtrl, "test_pro.pcs", "@Create=1")
+    file_val = m_bcapclient.file_getvalue(hFile)
+    # preview in file text
+    # print(file_val)
+    title_line = "'!TITLE " + '"test_pro"\n'
+    write_str = title_line + 'Sub Main\n    TakeArm Keep = 0\n    move p,@p p[1]\n    move p,@p p[2]\n    move p,@p p[3]\nEnd Sub'
+    # write text
+    # m_bcapclient.file_putvalue(hFile,write_str)
+    # test commands
+    # ret = m_bcapclient.file_getdatecreated(hFile) # crate date time "yyyy-mm-dd HH:MM:SS"
+    # ret = m_bcapclient.file_getdatelastmodified(hFile) # Last modified date time "yyyy-mm-dd HH:MM:SS"
+    # ret = m_bcapclient.file_getdatelastaccessed(hFile) # Last access date time "yyyy-mm-dd HH:MM:SS"
+    # ret = m_bcapclient.file_getpath(hFile) # get file path
+    # ret = m_bcapclient.file_getsize(hFile) # get file size (byte)
+    # ret = m_bcapclient.file_getattribute(hFile)
+    # ret = m_bcapclient.file_getname(hFile) # get file name
+    # print(ret)
 
 except Exception as e:
     print('=== ERROR Description ===')
+    # print( 'type:' + str(type(e)))
+    # print('args:' + str(e.args))
     if str(type(e)) == "<class 'pybcapclient.orinexception.ORiNException'>":
-        print(e)
         errorcode_int = int(str(e))
         if errorcode_int < 0:
             errorcode_hex = format(errorcode_int & 0xffffffff, 'x')
@@ -81,9 +70,9 @@ except Exception as e:
         print(e)
 
 # DisConnect
-if(hRobot != 0):
-    m_bcapclient.robot_release(hRobot)
-    print("Release Robot Handle")
+if(hFile != 0):
+    m_bcapclient.file_release(hFile)
+    print("Release File")
 # End If
 if(hCtrl != 0):
     m_bcapclient.controller_disconnect(hCtrl)

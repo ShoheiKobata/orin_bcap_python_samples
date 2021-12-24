@@ -1,15 +1,19 @@
 # -*- coding:utf-8 -*-
 
-# check extension objects and command ()
-# This program controls the electric hand.
+# Sample program
+# GetSrvData command
+# 
 
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
+import time
+
+# refer: https://www.fa-manuals.denso-wave.com/en/usermanuals/000199/
 
 # set IP Address , Port number and Timeout of connected RC8
-host = "192.168.0.1"
+host = "192.168.0.101"
 port = 5007
 timeout = 2000
 
@@ -24,27 +28,26 @@ print("Send SERVICE_START packet")
 # set Parameter
 Name = ""
 Provider = "CaoProv.DENSO.VRC"
-Machine = ("localhost")
-Option = ("")
+Machine = "localhost"
+Option = ""
 
 # Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
 print("Connect RC8")
-# get extension Object Handl
-hExtension = m_bcapclient.controller_getextension(hCtrl, "Hand0", "")
-print("Add Extension Hand")
+hRobot = m_bcapclient.controller_getrobot(hCtrl,'Arm')
 
-# Get electric hand position Hand[0].CurPos
-ret = m_bcapclient.extension_execute(hExtension, "CurPos")
-print("electric hand pos = ", ret)
+DataNumbers = [1,2,4,5,7,8,17,18,19,20]
+DataType =['CurrentMotorSpeed[rpm]','MotorAngle','Absolute motor current value','Motor torque command position','load factor','command value ','Tool tip speed(work coordinates)','Tool tip deviation(work coordinates)','Tool tip speed (tool coordinates)','Tool tip deviation (tool coordinates)']
 
-# Move electric hand  Hand[0].chuck 0
-m_bcapclient.extension_execute(hExtension, "Chuck", 0)
-print("electric hand moved")
 
-# Get electric hand position Hand[0].CurPos
-ret = m_bcapclient.extension_execute(hExtension, "CurPos")
-print("electric hand pos = ", ret)
+# 
+for i in range(len(DataNumbers)):
+    print(DataType[i])
+    for j in range(10):
+        return_datas = m_bcapclient.robot_execute(hRobot,'GetSrvData',DataNumbers[i])
+        print(return_datas)
+        time.sleep(0.5)
+
 
 # Disconnect
 if(hCtrl != 0):

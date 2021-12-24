@@ -27,7 +27,6 @@ Provider = "CaoProv.DENSO.VRC"
 Machine = "localhost"
 Option = ""
 
-
 # Connect to RC8 (RC8(VRC)provider) , Get Controller Handle
 hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
 print("Connect RC8")
@@ -41,8 +40,7 @@ maxerrorcode = ""
 maxlen = 0
 for errorcode in range(code_min, code_max):
     try:
-        strDescription = m_bcapclient.controller_execute(
-            hCtrl, "GetErrorDescription", errorcode)
+        strDescription = m_bcapclient.controller_execute(hCtrl, "GetErrorDescription", errorcode)
         # if(strDescription != "未定義エラーです。"):
         print(format(errorcode & 0xffffffff, 'x'))
         # print(strDescription)
@@ -50,6 +48,7 @@ for errorcode in range(code_min, code_max):
             maxlen = len(strDescription)
             maxerrorcode = format(errorcode & 0xffffffff, 'x')
             maxerrordisc = strDescription
+        # End if
     except Exception as e:
         print('=== ERROR Description ===')
         if str(type(e)) == "<class 'pybcapclient.orinexception.ORiNException'>":
@@ -58,12 +57,13 @@ for errorcode in range(code_min, code_max):
                 errorcode_hex = format(errorcode_int & 0xffffffff, 'x')
             else:
                 errorcode_hex = hex(errorcode_int)
+            # End if
             print("Error Code : 0x" + str(errorcode_hex))
-            error_description = m_bcapclient.controller_execute(
-                hCtrl, "GetErrorDescription", errorcode_int)
+            error_description = m_bcapclient.controller_execute(hCtrl, "GetErrorDescription", errorcode_int)
             print("Error Description : " + error_description)
         else:
             print(e)
+        # End if
 # End for
 print(maxerrordisc)
 print(maxerrorcode)

@@ -18,7 +18,7 @@ loopflg = True
 ESC = 0x1B          # [ESC] virtual key code
 
 # set IP Address , Port number and Timeout of connected RC8
-host = "192.168.38.12"
+host = "127.0.0.1"
 port = 5007
 timeout = 2000
 
@@ -51,9 +51,11 @@ print("Connect RC8")
 #hr = m_bcapclient.variable_putvalue(TaskStart, mode)
 
 EmgHandle = m_bcapclient.controller_getvariable(hCtrl, "@EMERGENCY_STOP")
+iHandle = m_bcapclient.controller_getvariable(hCtrl,"I1")
 
 while loopflg:
     print(m_bcapclient.variable_getvalue(EmgHandle))
+    print(m_bcapclient.variable_getvalue(iHandle))
 
     if getkey(ESC):  # If push the ESC key,task stop
         print("push the ESC key")
