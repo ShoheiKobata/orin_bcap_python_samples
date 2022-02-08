@@ -68,8 +68,7 @@ print("Complete Move P,@E J(0.0, 0.0, 90.0, 0.0, 90.0, 0.0)")
 
 # Check CheckVirtualFence
 for i in range(500):
-    ret = m_bcapclient.robot_execute(HRobot, 'CheckVirtualFence',
-                                     'J(' + str(target_joint[i])[1:-1] + ')')
+    ret = m_bcapclient.robot_execute(HRobot, 'CheckVirtualFence', 'J(' + str(target_joint[i])[1:-1] + ')')
     if ret != 0:
         raise ValueError("Check CheckVirtualFence!")
 

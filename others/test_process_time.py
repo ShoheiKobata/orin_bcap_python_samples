@@ -29,7 +29,7 @@ hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
 print("Connect RC8")
 # get I[1] Object Handl
 IHandl = 0
-IHandl = m_bcapclient.controller_getvariable(hCtrl, "I99", "")
+IHandl = m_bcapclient.controller_getvariable(hCtrl, "I1", "")
 start = time.time()
 for _ in range(100):
     # read value of I[1]

@@ -9,10 +9,10 @@
 import time
 import pybcapclient.bcapclient as bcapclient
 
-# refer: https://www.fa-manuals.denso-wave.com/en/usermanuals/000384/
+# this is sample program to use evp command
+# EVP Project data needs to be created in advance
 
 EVPProjectFile = "emg"
-
 
 # set IP Address , Port number and Timeout of connected RC8
 host = "192.168.0.1"
@@ -39,7 +39,7 @@ print("Connect RC8")
 
 
 h_EVP2_Ctrl = m_bcapclient.controller_connect("", "CaoProv.DENSO.EVP2", "", "project= " + EVPProjectFile)
-data_names = ['ModelID','RobotPoint','PixelPoint','Decode Result','SubRegionCheckResult','InterferenceCheck','InterferenceArea','RegionID','WorkDatas']
+data_names = ['ModelID', 'RobotPoint', 'PixelPoint', 'Decode Result', 'SubRegionCheckResult', 'InterferenceCheck', 'InterferenceArea', 'RegionID', 'WorkDatas']
 for i in range(10):
     t1 = time.time()
     print(f"count : {i}")
@@ -60,7 +60,7 @@ for i in range(10):
     # 処理後の時刻
     t2 = time.time()
     elapsed_time = t2 - t1
-    print(f"経過時間：{elapsed_time}[sec]")
+    print(f"経過時間:{elapsed_time}[sec]")
 
 
 # Disconnect
