@@ -34,12 +34,10 @@ def main():
 
     try:
         # Connect to RC8 (RC8(VRC)provider) , Get Controller Handle
-        hCtrl = m_bcapclient.controller_connect(
-            Name, Provider, Machine, Option)
+        hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
         print("Connect RC8")
         # Get Robot Handle
-        hMasterRobot = m_bcapclient.controller_getrobot(
-            hCtrl, "Master", "ID=0")
+        hMasterRobot = m_bcapclient.controller_getrobot(hCtrl, "Master", "ID=0")
         hSlaveRobot = m_bcapclient.controller_getrobot(hCtrl, "Slave", "ID=1")
         print('Get Robot obj')
 

@@ -10,11 +10,13 @@
 
 import pybcapclient.bcapclient as bcapclient
 import threading
+import time
 
 # set IP Address , Port number and Timeout of connected Robot Controller (RC8,RC8A,COBOTTA,RC9)
 HOST = "192.168.0.1"
 PORT = 5007
 TIMEOUT = 2000
+
 
 def thread_proc(stop_event):
     # def thread_proc(stop_event, m_bcapclient):
@@ -31,14 +33,15 @@ def thread_proc(stop_event):
 
     try:
         # Connect to RC8 (RC8(VRC)provider)
-        hCtrl = m_bcapclient.controller_connect(
-            Name, Provider, Machine, Option)
+        hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
         print("Sub :Connect " + Provider)
         hRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
-
+        time.sleep(1)
         while not stop_event.wait(0.01):
-            ret = m_bcapclient.robot_execute(hRobot, "CurPos")
-            print('Sub :' + str(ret))
+            m_bcapclient.controller_execute(hCtrl, 'HandMoveA', [1, 100])
+            m_bcapclient.controller_execute(hCtrl, 'HandMoveA', [29, 100])
+            # ret = m_bcapclient.robot_execute(hRobot, "CurPos")
+            # print('Sub :' + str(ret))
 
     except Exception as e:
         print(e)
@@ -72,17 +75,16 @@ def main_proc():
 
     try:
         # Connect to RC8 (RC8(VRC)provider)
-        hCtrl = m_bcapclient.controller_connect(
-            Name, Provider, Machine, Option)
+        hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
 
-        thread = threading.Thread(
-            # target=thread_proc, args=(stop_event, m_bcapclient,))
-            target=thread_proc, args=(stop_event, ))
+        thread = threading.Thread(target=thread_proc, args=(stop_event, ))
         thread.start()
 
         # get Robot Object Handl
         HRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
         print("Main:AddRobot")
+
+        m_bcapclient.controller_execute(hCtrl, 'ClearError')
 
         # TakeArm
         Command = "TakeArm"
@@ -90,18 +92,57 @@ def main_proc():
         m_bcapclient.robot_execute(HRobot, Command, Param)
         print("Main:TakeArm")
 
-        # Interpolation
+        Command = "Motor"
+        Param = [1, 0]
+        m_bcapclient.robot_execute(HRobot, Command, Param)
+        print("Motor on")
+        # Move Initialize Position
         Comp = 1
-        # PoseData (string)
-        Pose = "@P P1"
+        Pos_value = [0.0, 0.0, 90.0, 0.0, 90.0, 0.0]
+        Pose = [Pos_value, "J", "@E"]
         m_bcapclient.robot_move(HRobot, Comp, Pose, "")
-        print("Main:Complete Move P,@P P[1]")
-        Pose = "@P P2"
-        m_bcapclient.robot_move(HRobot, Comp, Pose, "")
-        print("Main:Complete Move P,@P P[2]")
-        Pose = "@P P3"
-        m_bcapclient.robot_move(HRobot, Comp, Pose, "")
-        print("Main:Complete Move P,@P P[3]")
+        print("Complete Move P,@E J(0.0, 0.0, 90.0, 0.0, 90.0, 0.0)")
+
+        # Slave move: Change Send format
+        Command = "slvSendFormat"
+        # Change the format to position and Hand IO(0x0020), Mini IO(0x0100)
+        Param = 0x0000
+        m_bcapclient.robot_execute(HRobot, Command, Param)
+        print("slvMove Format Change" + Command + ":" + str(Param))
+
+        # Slave move: Change return format
+        Command = "slvRecvFormat"
+        # Param = 0x0001  # Change the format to position
+        Param = 0x0014  # hex(10): timestamp, hex(4): [pose, joint]
+        m_bcapclient.robot_execute(HRobot, Command, Param)
+        print("slvMove Format Change" + Command + ":" + str(Param))
+
+        # Slave move: Change mode
+        Command = "slvChangeMode"
+        # Param = 0x001  # Type P, mode 0 (buffer the destination)
+        # Param = 0x201  # Type P, mode 2 (overwrite the destination)
+        Param = 0x202  # Type J, mode 2 (overwrite the joint)
+        m_bcapclient.robot_execute(HRobot, Command, Param)
+        print("slvMove Format Change" + Command + ":" + str(Param))
+
+        # Send POS slvMove
+        Command = "slvMove"
+        LoopNum = 300
+        # oldtime = 0
+        for num in range(LoopNum):
+            Pos_value = [0.0 + num * 0.1, 0.0, 90.0, 0.0, 90.0, 0.0, 0, 0]  # Joint Type
+            print(Pos_value)
+            ret = m_bcapclient.robot_execute(HRobot, Command, Pos_value)
+        for num in range(LoopNum):
+            Pos_value = [0.0 + (LoopNum - num) * 0.1, 0.0, 90.0, 0.0, 90.0, 0.0, 0, 0]  # Joint Type
+            ret = m_bcapclient.robot_execute(HRobot, Command, Pos_value)
+            print("time:" + str(ret[0]))
+            print("pos P,J:" + str(ret[1]))
+        # Slave move: Change mode
+        Command = "slvChangeMode"
+        Param = 0x000  # finish Slave Move
+        m_bcapclient.robot_execute(HRobot, Command, Param)
+        print("slvMove Format Change" + Command + ":" + str(Param))
 
         # Give Arm
         Command = "GiveArm"

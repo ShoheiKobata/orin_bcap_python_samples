@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-# test program
+# sample program
 # Measure the execution cycle of the HighCurJntEx command.
 
 # b-cap Lib URL

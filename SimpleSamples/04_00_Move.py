@@ -19,7 +19,7 @@ timeout = 2000
 # If you want to connect to RC8, RC8A, or COBOTTA, select "VRC" as the provider name.
 Name = ""
 Provider = "CaoProv.DENSO.VRC"
-#Provider = "CaoProv.DENSO.VRC9"
+# Provider = "CaoProv.DENSO.VRC9"
 Machine = "localhost"
 Option = ""
 
@@ -33,7 +33,7 @@ print("Send SERVICE_START packet")
 
 # Connect to RC8 (RC8(VRC)provider)
 hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
-print("Connect "+Provider)
+print("Connect " + Provider)
 # get Robot Object Handl
 HRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
 print("AddRobot")
@@ -62,12 +62,12 @@ print("ExtSpeed")
 # Set Parameters
 # Interpolation
 Comp = 1
-#PoseData (string)
+# PoseData (string)
 Pose = "@P P1"
 m_bcapclient.robot_move(HRobot, Comp, Pose, "SPEED=F2,NEXT")
 print("Complete Move P,@P P[1]")
 
-#PoseData (array [Index , Variavletype , Pass])
+# PoseData (array [Index , Variavletype , Pass])
 Pose = [2, "P", "@0"]
 m_bcapclient.robot_move(HRobot, Comp, Pose, "")
 print("Complete Move P,@0 P[2]")
