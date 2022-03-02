@@ -90,8 +90,7 @@ try:
             ret_values.append(ret_data)
         save_path = os.path.join(save_folder_path, var_filename)
         save_csvfile(save_path, ret_values)
-    #
-    #
+
     # save PacScript
     save_folder_path = 'PacScript\\'
     path_names = m_bcapclient.controller_getfilenames(hCtrl)
