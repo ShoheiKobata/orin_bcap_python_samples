@@ -11,10 +11,7 @@ streamlit run robot_data_dashboard.py
 
 '''
 
-
-from operator import truediv
 import streamlit as st
-import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import time
@@ -135,7 +132,7 @@ def main():
     ip_add_str = st.text_input('IPアドレス', '192.168.0.1')
     # ボタン
     start_button = st.empty()
-    if start_button.button('Start',key='start'):
+    if start_button.button('Start', key='start'):
         count = 0
         t = []
         x = []
@@ -144,7 +141,7 @@ def main():
         rx = []
         ry = []
         rz = []
-        
+
         res = st.session_state['robot'].connect(ip_add_str, 5007)
         st.write(res)  # markdown
         st.subheader('接続先ロボット情報')  # サブヘッダー
@@ -191,11 +188,10 @@ def main():
             # プレースホルダに書き出す
             plot_area.pyplot(fig)
             time.sleep(0.01)
-            
         # End while
 
     # 選択肢をサイドバーに表示する場合
-    #st.sidebar.selectbox('ラベル', ('選択肢1', '選択肢2', '選択肢3'))
+    # st.sidebar.selectbox('ラベル', ('選択肢1', '選択肢2', '選択肢3'))
 
 
 if __name__ == '__main__':
