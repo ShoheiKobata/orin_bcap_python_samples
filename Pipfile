@@ -9,6 +9,7 @@ verify_ssl = true
 pywinusb = "*"
 numpy = "*"
 tqdm = "*"
+streamlit = "*"
 
 [requires]
 python_version = "3.8"
