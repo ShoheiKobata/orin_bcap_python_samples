@@ -3,6 +3,10 @@
 # Sample program
 # Error handling program on the move
 
+# エラーハンドリングのサンプルです。 ロボットが動作中に非常停止を押してください。
+# b-cap通信でのエラーをキャッチします。キャッチしたエラーはロボットコントローラのエラー表記と合わせて出力します。
+# エラー詳細や復帰方法はロボットのエラーマニュアルを参照ください。
+
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
 
@@ -40,18 +44,18 @@ try:
     m_bcapclient.robot_execute(hRobot, "TakeArm")
     print("START")
     m_bcapclient.robot_move(hRobot, 1, "@P J1", option="next")
-    while (m_bcapclient.variable_getvalue(hArm_Busy) == True) and (m_bcapclient.variable_getvalue(hE_Statu) == False):
+    while (m_bcapclient.variable_getvalue(hArm_Busy) is True) and (m_bcapclient.variable_getvalue(hE_Statu) is False):
         print("Moving")
     else:
-        if(m_bcapclient.variable_getvalue(hE_Statu) == True):
+        if(m_bcapclient.variable_getvalue(hE_Statu) is True):
             print("EMERGENCY_STOP")
             raise Exception
     print("Move 1 Done")
     m_bcapclient.robot_move(hRobot, 1, "@P J2", option="next")
-    while (m_bcapclient.variable_getvalue(hArm_Busy) == True) and (m_bcapclient.variable_getvalue(hE_Statu) == False):
+    while (m_bcapclient.variable_getvalue(hArm_Busy) is True) and (m_bcapclient.variable_getvalue(hE_Statu) is False):
         print("Moving")
     else:
-        if(m_bcapclient.variable_getvalue(hE_Statu) == True):
+        if(m_bcapclient.variable_getvalue(hE_Statu) is True):
             print("EMERGENCY_STOP")
             raise Exception
     print("Move 2 Done")
@@ -67,8 +71,7 @@ except Exception as e:
         else:
             errorcode_hex = hex(errorcode_int)
         print("Error Code : 0x" + str(errorcode_hex))
-        error_description = m_bcapclient.controller_execute(
-            hCtrl, "GetErrorDescription", errorcode_int)
+        error_description = m_bcapclient.controller_execute(hCtrl, "GetErrorDescription", errorcode_int)
         print("Error Description : " + error_description)
     else:
         print(e)

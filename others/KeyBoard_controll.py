@@ -4,7 +4,20 @@
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
 #
-#
+# キーボードの入力時応じてロボットを動作させるサンプルプログラムです。下記の内容で動作します。
+# a : x+
+# s : x-
+# d : y+
+# f : y-
+# g : z+
+# h : z- 
+# z : Rx+
+# x : Rx-
+# c : Ry+
+# v : Ry-
+# b : Rz+
+# n :Rz-
+
 
 import pybcapclient.bcapclient as bcapclient
 
