@@ -16,6 +16,7 @@ HOST = "192.168.0.1"
 PORT = 5007
 TIMEOUT = 2000
 
+
 def thread_proc(stop_event):
     # def thread_proc(stop_event, m_bcapclient):
     m_bcapclient = bcapclient.BCAPClient(HOST, PORT, TIMEOUT)

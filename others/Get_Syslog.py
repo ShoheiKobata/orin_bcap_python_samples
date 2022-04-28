@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 
-# Sample program to get control log
+# Sample program to get control log and save csv file. 
+# ロボットコントローラの制御ログを取得するサンプルプログラムです。
+# 制御ログの開始停止、csvファイルへ保存が可能です。
 
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
