@@ -54,7 +54,7 @@ try:
     m_bcapclient.robot_execute(hRobot, "TakeArm")
     m_bcapclient.robot_execute(hRobot, "ExtSpeed", 100)
     m_bcapclient.robot_move(hRobot, 1, "@P J(0,0,90,0,90,0)")
-
+    m_bcapclient.robot_execute(hRobot, "GiveArm", None)
 
 except Exception as e:
     print('=== ERROR Description ===')

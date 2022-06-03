@@ -10,7 +10,7 @@
 import pybcapclient.bcapclient as bcapclient
 
 # set IP Address , Port number and Timeout of connected RC8
-host = "127.0.0.1"
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
@@ -47,6 +47,10 @@ try:
     vntParam = [3, 5, 20, aaa, bbb, ccc, ddd, 2, 1]
     ret = m_bcapclient.extension_execute(hext, comandstr, vntParam)
     print(ret)
+    for i in range(1, 15):
+        vntParam = [3, 5, 20, aaa, bbb, ccc, ddd, i, 1]
+        ret = m_bcapclient.extension_execute(hext, comandstr, vntParam)
+        print(f'No.{i} : {ret}')
 
 
 except Exception as e:
@@ -58,8 +62,7 @@ except Exception as e:
         else:
             errorcode_hex = hex(errorcode_int)
         print("Error Code : 0x" + str(errorcode_hex))
-        error_description = m_bcapclient.controller_execute(
-            hCtrl, "GetErrorDescription", errorcode_int)
+        error_description = m_bcapclient.controller_execute(hCtrl, "GetErrorDescription", errorcode_int)
         print("Error Description : " + error_description)
     else:
         print(e)

@@ -5,7 +5,7 @@
 #
 
 import os
-from PIL import Image, ImageOps
+from PIL import Image
 import io
 import numpy as np
 import cv2
@@ -22,17 +22,17 @@ host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
-mbcapclient = bcap.BCAPClient(host,port,timeout)
+mbcapclient = bcap.BCAPClient(host, port, timeout)
 mbcapclient.service_start("")
 
 # Server = N10-W02 IP Address
-hCameraCtrl = mbcapclient.controller_connect('',"CaoProv.Canon.N10-W02", "", "Server=192.168.0.90")
+hCameraCtrl = mbcapclient.controller_connect('', "CaoProv.Canon.N10-W02", "", "Server=192.168.0.90")
 
 # FiIRMWARE
-hFirmware = mbcapclient.controller_getvariable(hCameraCtrl,"@FIRMWARE")
+hFirmware = mbcapclient.controller_getvariable(hCameraCtrl, "@FIRMWARE")
 print(mbcapclient.variable_getvalue(hFirmware))
 
-himage = mbcapclient.controller_getvariable(hCameraCtrl,'IMAGE')
+himage = mbcapclient.controller_getvariable(hCameraCtrl, 'IMAGE')
 
 while(1):
     image_row = mbcapclient.variable_getvalue(himage)
@@ -41,13 +41,14 @@ while(1):
     img_binarystream = io.BytesIO(image_row)
     img_pil = Image.open(img_binarystream)
     # print(img_pil.mode)
-    w,h = img_pil.size
+    w, h = img_pil.size
     # print(img_pil.size)
     img_numpy = np.array(img_pil)
-    img_numpy_bgr = cv2.cvtColor(img_numpy,cv2.COLOR_RGBA2BGR)
-    resize_img_numpy_bgr = cv2.resize(img_numpy_bgr,(int(w/2),int(h/2)))
+    img_numpy_bgr = cv2.cvtColor(img_numpy, cv2.COLOR_RGBA2BGR)
+    resize_img_numpy_bgr = cv2.resize(img_numpy_bgr, (int(w / 2), int(h / 2)))
 
-    cv2.imshow('Image',resize_img_numpy_bgr)
-    #ESCキーでブレーク
+    cv2.imshow('Image', resize_img_numpy_bgr)
+    # ESCキーでブレーク
     if cv2.waitKey(20) & 0xFF == 27:
         break
+# End while

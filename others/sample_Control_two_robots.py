@@ -46,7 +46,7 @@ try:
     # Get Robot Handle
     R1_hRobot = R1_bcapclient.controller_getrobot(R1_hCtrl, "Arm", "")
     R2_hRobot = R2_bcapclient.controller_getrobot(R2_hCtrl, "Arm", "")
-    
+
     # Take Arm
     Command = "TakeArm"
     Param = [0, 0]
@@ -54,7 +54,7 @@ try:
     print("R1:TakeArm")
     R2_bcapclient.robot_execute(R2_hRobot, Command, Param)
     print("R2:TakeArm")
-    
+
     comp = 1
     joint_value = [0, 0, 90, 0, 90, 0]
     pose = [joint_value, "J", "@E"]
@@ -69,20 +69,19 @@ try:
     R1_bcapclient.robot_move(R1_hRobot, comp, pose, "Next")
     print('R2:Move Start')
     R2_bcapclient.robot_move(R2_hRobot, comp, pose, "")
-    
+
     joint_value = [0, 0, 90, 0, 90, 0]
     pose = [joint_value, "J", "@E"]
     print('R1:Move Start')
     R1_bcapclient.robot_move(R1_hRobot, comp, pose, "")
     print('R2:Move Start')
     R2_bcapclient.robot_move(R2_hRobot, comp, pose, "")
-        
+
     # Give Arm
     Command = "GiveArm"
-    Param = None
-    R1_bcapclient.robot_execute(R1_hRobot, Command, Param)
+    R1_bcapclient.robot_execute(R1_hRobot, Command, None)
     print("R1:GiveArm")
-    R2_bcapclient.robot_execute(R2_hRobot, Command, Param)
+    R2_bcapclient.robot_execute(R2_hRobot, Command, None)
     print("R2:GiveArm")
 
 except Exception as e:
