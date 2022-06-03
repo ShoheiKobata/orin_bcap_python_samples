@@ -6,17 +6,7 @@
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
-import ctypes
 
-
-def getkey(key):
-    return(bool(ctypes.windll.user32.GetAsyncKeyState(key) & 0x8000))
-# End def
-
-
-ESC = 0x1B          # Virtual key code of [ESC] key
-key_1 = 0X31        # Virtual key code of [1] key
-key_2 = 0X32        # Virtual key code of [2] key
 
 # set IP Address , Port number and Timeout of connected RC8
 host = "192.168.0.1"
@@ -32,31 +22,34 @@ m_bcapclient.service_start("")
 print("Send SERVICE_START packet")
 
 # set Parameter
-Name = ""
-Provider = "CaoProv.DENSO.VRC"
-Machine = "localhost"
-Option = ""
+name = ""
+provider = "CaoProv.DENSO.VRC"
+machine = "localhost"
+option = ""
 
 try:
     # Connect to RC8 (RC8(VRC)provider) , Get Controller Handle
-    hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
+    hctrl = m_bcapclient.controller_connect(name, provider, machine, option)
     print("Connect RC8")
     # Get Robot Handle
-    hRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
+    hrobot = m_bcapclient.controller_getrobot(hctrl, "Arm", "")
     # TakeArm
-    Command = "TakeArm"
-    Param = [0, 0]
-    m_bcapclient.robot_execute(hRobot, Command, Param)
+    command = "TakeArm"
+    arm_group = 0
+    keep = 0
+    m_bcapclient.robot_execute(hrobot, command, [arm_group, keep])
     print("TakeArm")
 
-    TargetPos = [300, 0, 400, 180, 0, 180, 5]
-    strTargetPos = str(TargetPos)
-    Pose = "P(" + strTargetPos[1:-1] + ")"
-    ret = m_bcapclient.robot_execute(hRobot, "OutRange", Pose)
+    targetpos_value = [300, 0, 400, 180, 0, 180, 5]
+    pose = [targetpos_value, "P"]
+    tool_def = -1
+    work_def = -1
+    ret = m_bcapclient.robot_execute(hrobot, "OutRange", [pose, tool_def, work_def])
     print(ret)
     if ret == 0:
-        strPose = "@P " + Pose
-        m_bcapclient.robot_move(hRobot, 1, strPose)
+        lcomp = 1
+        pose_data = [targetpos_value, "P", "@E"]
+        m_bcapclient.robot_move(hrobot, lcomp, pose_data)
     # End If
 
 except Exception as e:
@@ -69,20 +62,21 @@ except Exception as e:
         else:
             errorcode_hex = hex(errorcode_int)
         print("Error Code : 0x" + str(errorcode_hex))
-        error_description = m_bcapclient.controller_execute(
-            hCtrl, "GetErrorDescription", errorcode_int)
+        error_description = m_bcapclient.controller_execute(hctrl, "GetErrorDescription", errorcode_int)
         print("Error Description : " + error_description)
     else:
         print(e)
 
-# DisConnect
-if(hRobot != 0):
-    m_bcapclient.robot_release(hRobot)
-    print("Release Robot Handle")
-# End If
-if(hCtrl != 0):
-    m_bcapclient.controller_disconnect(hCtrl)
-    print("Release Controller")
-# End If
-m_bcapclient.service_stop()
-print("B-CAP service Stop")
+finally:
+    m_bcapclient.robot_execute(hrobot, "GiveArm", None)
+    # DisConnect
+    if(hrobot != 0):
+        m_bcapclient.robot_release(hrobot)
+        print("Release Robot Handle")
+    # End If
+    if(hctrl != 0):
+        m_bcapclient.controller_disconnect(hctrl)
+        print("Release Controller")
+    # End If
+    m_bcapclient.service_stop()
+    print("B-CAP service Stop")
