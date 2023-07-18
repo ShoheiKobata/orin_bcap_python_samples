@@ -11,6 +11,7 @@
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
+from pybcapclient.orinexception import ORiNException
 
 # set IP Address , Port number and Timeout of connected RC8
 host = "192.168.0.1"
@@ -61,29 +62,29 @@ try:
     print("Move 2 Done")
 
 
-except Exception as e:
-    print('=== ERROR Description ===')
-    if str(type(e)) == "<class 'pybcapclient.orinexception.ORiNException'>":
-        print(e)
-        errorcode_int = int(str(e))
-        if errorcode_int < 0:
-            errorcode_hex = format(errorcode_int & 0xffffffff, 'x')
-        else:
-            errorcode_hex = hex(errorcode_int)
-        print("Error Code : 0x" + str(errorcode_hex))
-        error_description = m_bcapclient.controller_execute(hCtrl, "GetErrorDescription", errorcode_int)
-        print("Error Description : " + error_description)
+except ORiNException as e:
+    print('=== ORiN Error ===')
+    errorcode_int = int(str(e))
+    if errorcode_int < 0:
+        errorcode_hex = format(errorcode_int & 0xffffffff, 'x')
     else:
-        print(e)
-
+        errorcode_hex = hex(errorcode_int)
+    print("Error Code : 0x" + str(errorcode_hex))
+    error_description = m_bcapclient.controller_execute(hCtrl, "GetErrorDescription", errorcode_int)
+    print("Error Description : " + error_description)
+except Exception as e:
+    print('=== non ORiN Error ===')
+    print(e)
+else:
+    print('finish (non error)')
 finally:
     m_bcapclient.robot_execute(hRobot, "GiveArm")
     # DisConnect
-    if(hRobot != 0):
+    if (hRobot != 0):
         m_bcapclient.robot_release(hRobot)
         print("Release Robot Handle")
     # End If
-    if(hCtrl != 0):
+    if (hCtrl != 0):
         m_bcapclient.controller_disconnect(hCtrl)
         print("Release Controller")
     # End If
