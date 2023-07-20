@@ -6,6 +6,17 @@
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
 
+'''
+for _ in range(10000):
+    # read value of I[1]
+    retI = m_bcapclient.variable_getvalue(IHandl)
+result
+process_time: 17.367063760757446[sec]
+
+The communication speed is about 1.7 [msec] in our environment.
+This result is for reference only.
+'''
+
 import pybcapclient.bcapclient as bcapclient
 import time
 
@@ -29,23 +40,15 @@ hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
 print("Connect RC8")
 # get I[1] Object Handl
 IHandl = 0
-IHandl = m_bcapclient.controller_getvariable(hCtrl, "I99", "")
+IHandl = m_bcapclient.controller_getvariable(hCtrl, "I1", "")
 start = time.time()
-for _ in range(100):
+for _ in range(10000):
     # read value of I[1]
     retI = m_bcapclient.variable_getvalue(IHandl)
-    print("Read Variable I[1] = %d" % retI)
-    # Generate random value
-    newval = retI + 1
-    # write value of I[1]
-    m_bcapclient.variable_putvalue(IHandl, newval)
-    print("Write Variable :newval = %d" % newval)
-    # read value of I[1]
-    retI = m_bcapclient.variable_getvalue(IHandl)
-    print("Read Variable I[1] = %d" % retI)
+    # print("Read Variable I[1] = %d" % retI)
 # End for
 process_time = time.time() - start
-print(process_time)
+print(f'process_time: {process_time}[sec]')
 # Disconnect
 if(IHandl != 0):
     m_bcapclient.variable_release(IHandl)

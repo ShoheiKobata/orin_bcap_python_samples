@@ -1,24 +1,13 @@
 # -*- coding:utf-8 -*-
 
-# test program
-# Temporary program
+# sample program
+# palletcalspos in extension object class
+# Pallet.CalcPos command reference https://www.fa-manuals.denso-wave.com/en/usermanuals/000402/
 
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
 
 import pybcapclient.bcapclient as bcapclient
-import time
-import ctypes
-
-
-def getkey(key):
-    return(bool(ctypes.windll.user32.GetAsyncKeyState(key) & 0x8000))
-# End def
-
-
-ESC = 0x1B          # Virtual key code of [ESC] key
-key_1 = 0X31        # Virtual key code of [1] key
-key_2 = 0X32        # Virtual key code of [2] key
 
 # set IP Address , Port number and Timeout of connected RC8
 host = "192.168.0.1"
@@ -43,47 +32,41 @@ try:
     # Connect to RC8 (RC8(VRC)provider) , Get Controller Handle
     hCtrl = m_bcapclient.controller_connect(Name, Provider, Machine, Option)
     print("Connect RC8")
-    # Get Robot Handle
-    hRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
-    # TakeArm
-    Command = "TakeArm"
-    Param = [0, 0]
-    m_bcapclient.robot_execute(hRobot, Command, Param)
-    print("TakeArm")
+    print(hCtrl)
+    # Get extention pallet
+    hext = m_bcapclient.controller_getextension(hCtrl, "Pallet", "")
+    # Assign position indicating pallet four corner position P1 to aaa
+    aaa = "P( 600, -100, 50, -180, 0, 180, 5 )"
+    # ssign position indicating pallet four corner position P2 to bbb
+    bbb = "P( 600, 100, 50, -180, 0, 180, 5 )"
+    # Assign position indicating pallet four corner position P3 to ccc
+    ccc = "P( 400, -100, 50, -180, 0, 180, 5 )"
+    # Assign position indicating pallet four corner position P4 to ddd
+    ddd = "P( 400, 100, 50, -180, 0, 180, 5 )"
+    comandstr = "CalcPos"
+    vntParam = [3, 5, 20, aaa, bbb, ccc, ddd, 2, 1]
+    ret = m_bcapclient.extension_execute(hext, comandstr, vntParam)
+    print(ret)
+    for i in range(1, 15):
+        vntParam = [3, 5, 20, aaa, bbb, ccc, ddd, i, 1]
+        ret = m_bcapclient.extension_execute(hext, comandstr, vntParam)
+        print(f'No.{i} : {ret}')
 
-    Pose = "@E J(0,0,90,0,90,0)"
-    m_bcapclient.robot_move(hRobot, 1, Pose)
-
-    for i in range(7):
-        print(time.time())
-        time.sleep(10)
-    # End for
-
-    Pose = "@E J(0,0,90,0,90,10)"
-    m_bcapclient.robot_move(hRobot, 1, Pose)
-
-    # End while
 
 except Exception as e:
     print('=== ERROR Description ===')
     if str(type(e)) == "<class 'pybcapclient.orinexception.ORiNException'>":
-        print(e)
         errorcode_int = int(str(e))
         if errorcode_int < 0:
             errorcode_hex = format(errorcode_int & 0xffffffff, 'x')
         else:
             errorcode_hex = hex(errorcode_int)
         print("Error Code : 0x" + str(errorcode_hex))
-        error_description = m_bcapclient.controller_execute(
-            hCtrl, "GetErrorDescription", errorcode_int)
+        error_description = m_bcapclient.controller_execute(hCtrl, "GetErrorDescription", errorcode_int)
         print("Error Description : " + error_description)
     else:
         print(e)
 
-# DisConnect
-if(hRobot != 0):
-    m_bcapclient.robot_release(hRobot)
-    print("Release Robot Handle")
 # End If
 if(hCtrl != 0):
     m_bcapclient.controller_disconnect(hCtrl)

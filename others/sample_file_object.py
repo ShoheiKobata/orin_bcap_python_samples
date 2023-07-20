@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-# test program
+# sample program
 # Get File Object and edit program(test_pro.pcs) in RC8
 
 # b-cap Lib URL
@@ -9,7 +9,7 @@
 import pybcapclient.bcapclient as bcapclient
 
 # set IP Address , Port number and Timeout of connected RC8
-host = "127.0.0.1"
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 
@@ -39,8 +39,7 @@ try:
     # preview in file text
     # print(file_val)
     title_line = "'!TITLE " + '"test_pro"\n'
-    write_str = title_line + \
-        'Sub Main\n    TakeArm Keep = 0\n    move p,@p p[1]\n    move p,@p p[2]\n    move p,@p p[3]\nEnd Sub'
+    write_str = title_line + 'Sub Main\n    TakeArm Keep = 0\n    move p,@p p[1]\n    move p,@p p[2]\n    move p,@p p[3]\nEnd Sub'
     # write text
     # m_bcapclient.file_putvalue(hFile,write_str)
     # test commands

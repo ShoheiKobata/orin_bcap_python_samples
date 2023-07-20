@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-# test program
+# sample program
 # Measure the execution cycle of the HighCurJntEx command.
 
 # b-cap Lib URL
@@ -21,7 +21,7 @@ key_1 = 0X31        # Virtual key code of [1] key
 key_2 = 0X32        # Virtual key code of [2] key
 
 # set IP Address , Port number and Timeout of connected RC8
-host = "192.168.0.2"
+host = "192.168.0.1"
 port = 5007
 timeout = 2000
 

@@ -2,11 +2,9 @@
 # -*- coding:utf-8 -*-
 
 # Sample program
-# b-cap slave mode with controll IO
+# b-cap slave mode
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
-
-import time
 
 import pybcapclient.bcapclient as bcapclient
 
@@ -24,6 +22,11 @@ Provider = "CaoProv.DENSO.VRC"
 Machine = "localhost"
 Option = ""
 
+# Set path point
+target_joint = []
+for i in range(500):
+    target_joint.append([i * 0.05, 0.0, 90.0, 0.0, 90.0, 0.0, 0.0, 0.0])
+
 # Connection processing of tcp communication
 m_bcapclient = bcapclient.BCAPClient(host, port, timeout)
 print("Open Connection")
@@ -38,6 +41,11 @@ print("Connect " + Provider)
 # get Robot Object Handl
 HRobot = m_bcapclient.controller_getrobot(hCtrl, "Arm", "")
 print("AddRobot")
+
+# ClearError
+Command = "ClearError"
+Param = None
+m_bcapclient.controller_execute(hCtrl, Command, Param)
 
 # TakeArm
 Command = "TakeArm"
@@ -58,50 +66,42 @@ Pose = [Pos_value, "J", "@E"]
 m_bcapclient.robot_move(HRobot, Comp, Pose, "")
 print("Complete Move P,@E J(0.0, 0.0, 90.0, 0.0, 90.0, 0.0)")
 
+# Check CheckVirtualFence
+for i in range(500):
+    ret = m_bcapclient.robot_execute(HRobot, 'CheckVirtualFence', 'J(' + str(target_joint[i])[1:-1] + ')')
+    if ret != 0:
+        raise ValueError("Check CheckVirtualFence!")
+
 
 # Slave move: Change Send format
 Command = "slvSendFormat"
-Param = 0x0020  # Change the format to position and Hand IO(0x0020), Mini IO(0x0100)
+Param = 0x0000  # Change the format to position
 m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
 # Slave move: Change return format
 Command = "slvRecvFormat"
-# Param = 0x0001  # Change the format to position
-Param = 0x0014  # hex(10): timestamp, hex(4): [pose, joint]
+Param = 0x0001  # Change the format to position
 m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
 # Slave move: Change mode
 Command = "slvChangeMode"
-# Param = 0x001  # Type P, mode 0 (buffer the destination)
-# Param = 0x201  # Type P, mode 2 (overwrite the destination)
-Param = 0x202  # Type J, mode 2 (overwrite the joint)
+# mode 2 (Synchronous - with waiting time, Number of buffer 3(Buffering data is always used)) , Type J
+Param = 0x202
 m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
 # Send POS slvMove
 Command = "slvMove"
-LoopNum = 100
-oldtime = 0
+LoopNum = 500
 for num in range(LoopNum):
-    Pos_value = [0.0 + num * 0.1, 0.0, 90.0, 0.0, 90.0, 0.0, 0, 0]  # Joint Type
-    # Pos_value = [460.0 + num, 0.0, 779.9, 180.0, 0.0, 180.0, 5]   # Postion type
-    # HandIO
-    # IO[64]=On : 0x010000 , IO[64,65]=on 0x030000 ,IO[64-67]=On 0x0F0000 , IO[64-71]=On 0xFF0000
-    # MiniIO
-    # IO[24]=On : 0x01000000 , IO[24,25]=On : 0x03000000 IO[24-26]=On 0x0F000000 , IO[24-31]=On : 0xFF000000
-    # MiniIO and Hand IO
-    # [Pos_value,MiniIO,HandIO]
-    send_data = [Pos_value, 0x70000000]
-    ret = m_bcapclient.robot_execute(HRobot, Command, send_data)
-    print("pos P,J:" + str(ret[1]))
+    Pos_value = target_joint[num]
+    ret = m_bcapclient.robot_execute(HRobot, Command, Pos_value)
+    # print(num)
 for num in range(LoopNum):
-    Pos_value = [0.0 + (LoopNum - num) * 0.1, 0.0, 90.0, 0.0, 90.0, 0.0, 0, 0]  # Joint Type
-    # Pos_value = [460.0 + LoopNum - num, 0.0, 779.9, 180.0, 0.0, 180.0, 5]     # Position Type
-    send_data = [Pos_value, 0x000000]
-    ret = m_bcapclient.robot_execute(HRobot, Command, send_data)
-    print("pos P,J:" + str(ret[1]))
+    Pos_value = target_joint[LoopNum - 1 - num]
+    ret = m_bcapclient.robot_execute(HRobot, Command, Pos_value)
 
 # Slave move: Change mode
 Command = "slvChangeMode"
@@ -109,13 +109,17 @@ Param = 0x000  # finish Slave Move
 m_bcapclient.robot_execute(HRobot, Command, Param)
 print("slvMove Format Change" + Command + ":" + str(Param))
 
-# Release Handle and Disconnect
-Command = "slvChangeMode"
-# Param = 0x001  # Type P, mode 0 (buffer the destination)
-Param = 0x101  # Type P, mode 1 (overwrite the destination)
-# Param = 0x102  # Type J, mode 1 (overwrite the joint)
+# Motor Off
+Command = "Motor"
+Param = [0, 0]
 m_bcapclient.robot_execute(HRobot, Command, Param)
-print("slvMove Format Change" + Command + ":" + str(Param))
+print("Motor Off")
+
+# GiveArm
+Command = "GiveArm"
+Param = None
+m_bcapclient.robot_execute(HRobot, Command, Param)
+print("TakeArm")
 
 # Release Handle and Disconnect
 if HRobot != 0:

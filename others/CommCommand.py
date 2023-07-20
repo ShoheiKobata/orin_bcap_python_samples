@@ -61,8 +61,7 @@ while loopflg:
     retComCount = 0
     retComCount = m_bcapclient.extension_execute(hcom, "count", line_number)
     if(retComCount > 0):
-        retComInput = m_bcapclient.extension_execute(
-            hcom, "input", line_number)
+        retComInput = m_bcapclient.extension_execute(hcom, "input", line_number)
         print(retComInput)
     # End if
     if getkey(ESC):  # If push the ESC key,Stop program

@@ -6,6 +6,8 @@
 # b-cap Lib URL
 # https://github.com/DENSORobot/orin_bcap
 
+# refer: https://www.fa-manuals.denso-wave.com/en/usermanuals/000199/ (GetSrvData Command)
+
 import pybcapclient.bcapclient as bcapclient
 import time
 
