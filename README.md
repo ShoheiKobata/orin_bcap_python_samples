@@ -3,6 +3,8 @@
 Robot communication sample program using b-cap communication.  
 [日本語版 README はこちら](https://github.com/ShoheiKobata/orin_bcap_python_samples/blob/master/README_JP.md)
 
+check the [github pages (JP)](https://shoheikobata.github.io/bcapSamples.github.io/) .
+
 ## Description  
 
 - orin_bcap_python_samples/SimpleSamples  
