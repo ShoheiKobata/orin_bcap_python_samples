@@ -2,24 +2,38 @@
 
 Use the 3D mouse to move the robot.  
 
+
+# DEMO
+
+![app_demo](https://github.com/ShoheiKobata/orin_bcap_python_samples/assets/33975299/842ba822-b6de-4f81-8bec-c48eba1dd71f)
+
+While the robot is moving, the 3D mouse is being operated.
+
+
 ## Description  
 
 By reflecting the movement amount of the 3D mouse on the robot, you can intuitively operate the robot.  
 You can change the operation method such as straight ahead, straight ahead + rotation.  
-In the program, Ry, Rz, Fig are fixed.  
+
 
 ## Requirement
 
 python=3.* 
+pywinusb==0.4.2
+
+## Installation
+
+```
+pip install pywinusb
+```
 
 ## Usage
 
-- You should edit config of IP Address (host) in line 26 .  
-    ```python:3DMouse_controll.py
-    host = "192.168.0.2"
-    port = 5007
-    timeout = 2000
-    ```
+```
+git clone https://github.com/ShoheiKobata/orin_bcap_python_samples.git
+cd orin_bcap_python_samples/3DMouse_Controll
+python 3D_mouse_controll_gui.py 
+```
 
 ## Reference
 

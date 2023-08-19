@@ -23,13 +23,12 @@ def main():
     ESC = 0x1B          # [ESC] virtual key code
     
     ### set IP Address , Port number and Timeout of connected RC8
-    host = "192.168.0.2"
+    host = "127.0.0.1"
     port = 5007
     timeout = 2000
     ### Handls
     hctrl=0
-    hrob1=0
-    hrob2=0
+    hrob=0
 
     sumstate = np.zeros(7)
     target_pos = np.zeros(7)
@@ -47,26 +46,22 @@ def main():
         hctrl = bcap.controller_connect(Name,Provider,Machine,Option)
         print("Connect Ctrl")
         #Connect To arm
-        hrob1 = bcap.controller_getrobot(hctrl,"Arm0","ID=0")
-        hrob2 = bcap.controller_getrobot(hctrl,"Arm1","ID=1")
+        hrob = bcap.controller_getrobot(hctrl,"Arm","")
         print("Connect Robot")
-        print("Robot0=",hrob1)
-        print("Robot1=",hrob2)
         #Take Arm
         Command = "TakeArm"
         Param = [0,0]
-        bcap.robot_execute(hrob1,Command,Param)
-        bcap.robot_execute(hrob2,Command,Param)
+        bcap.robot_execute(hrob,Command,Param)
         print("Take Arm")
         #Motor On
         Command = "Motor"
         Param = [1,0]
-        bcap.robot_execute(hrob1,Command,Param)
+        bcap.robot_execute(hrob,Command,Param)
         print("Motor On")
         #Get CurPos
         Command = "CurPos"
         Param = ""
-        tmp_cur_pos = bcap.robot_execute(hrob1,Command,Param)
+        tmp_cur_pos = bcap.robot_execute(hrob,Command,Param)
         org_pos = np.array(tmp_cur_pos[0:7])
         print("Origin Pos")
         print(org_pos)
@@ -86,37 +81,19 @@ def main():
             target_pos[3:5] = origin_pos[3:5] #Rx,Ry
             target_pos[6] = origin_pos[6]     #Fig
             tlist = target_pos.tolist()
-            #print("tlist")
-            #print(tlist)
-            #SyncMoveStart
-            Command = "SyncMoveStart"
-            Param = [1]
-            bcap.robot_execute(hrob1,Command,Param)
-            print("Move")
+            print("tlist")
+            print(tlist)
             POSEDATA = [tlist,"P","@P"]
-            bcap.robot_move(hrob1,2,POSEDATA,"")
-            #SyncMoveStart
-            Command = "SyncMoveEnd"
-            Param = ""
-            bcap.robot_execute(hrob1,Command,Param)
+            bcap.robot_move(hrob,1,POSEDATA,"")
             if getkey(ESC):     # If push the ESC key,program finish
                 flg=False
             #End if
         #End while
-
-        
-
-        if hrob2 != 0:
-            bcap.robot_release(hrob2)
-            hrob2 = 0
+        if hrob != 0:
+            bcap.robot_release(hrob)
+            hrob = 0
             print("Release Robot")
         #End if
-        if hrob1 != 0:
-            bcap.robot_release(hrob1)
-            hrob1 = 0
-            print("Release Robot")
-        #End if
-
         if hctrl != 0:
             bcap.controller_disconnect(hctrl)
             hctrl = 0
