@@ -1,0 +1,15 @@
+{
+  "robot": {
+    "Ipaddress": "192.168.0.1"
+  },
+  "draw": {
+    "area_min": "3",
+    "area_len_min": "4",
+    "threshold1": "100",
+    "threshold2": "200"
+  },
+  "filter": {
+    "filter_h": "5",
+    "filter_hcolor": "5"
+  }
+}

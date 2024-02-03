@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+customtkinter = "*"
+pillow = "*"
+opencv-python = "*"
+pip = "*"
+install = "*"
+pyrealsense2 = "*"
+sphinx = "*"
+sphinx-rtd-theme = "*"
+"sphinxcontrib.plantuml" = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+python_full_version = "3.9.7"
