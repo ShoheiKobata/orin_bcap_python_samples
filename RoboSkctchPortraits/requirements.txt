@@ -17,7 +17,7 @@ numpy==1.25.2
 opencv-python==4.8.0.76
 packaging==23.1
 pefile==2023.2.7
-Pillow==10.0.0
+Pillow==10.2.0
 Pygments==2.16.1
 pyinstaller==5.13.2
 pyinstaller-hooks-contrib==2023.8
